@@ -1,0 +1,1 @@
+package gr.zisis.interestapi.controller.response.entity;
