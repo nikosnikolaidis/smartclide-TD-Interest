@@ -2,6 +2,7 @@ package gr.zisis.interestapi.persistence;
 
 import java.util.Collection;
 
+import gr.zisis.interestapi.controller.response.entity.InterestPerCommitFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -30,4 +31,8 @@ public interface MetricsRepository extends JpaRepository<Metrics, Integer> {
 			+ "WHERE m.pid = (SELECT p.pid FROM Projects p WHERE p.url LIKE ?1) AND m.sha = ?2 GROUP BY m.sha, m.revisionCount")
 	Collection<CumulativeInterestPerCommit> findCumulativeInterestPerCommit(String url, String sha);
 
+	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.InterestPerCommitFile(m.sha, m.filePath, m.revisionCount, m.interestEu) "
+			+ "FROM Metrics m "
+			+ "WHERE m.pid = (SELECT p.pid FROM Projects p WHERE p.url LIKE ?1) AND m.sha = ?3 AND m.filePath = ?2")
+	Collection<InterestPerCommitFile> findInterestPerCommitFile(String url, String filePath, String sha);
 }

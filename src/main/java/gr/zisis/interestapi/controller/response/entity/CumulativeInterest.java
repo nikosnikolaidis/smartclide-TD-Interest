@@ -1,7 +1,6 @@
 package gr.zisis.interestapi.controller.response.entity;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 /**
  * @author George Digkas <digasgeo@gmail.com>
