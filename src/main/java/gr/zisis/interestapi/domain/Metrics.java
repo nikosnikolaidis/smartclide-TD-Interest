@@ -69,7 +69,7 @@ public class Metrics implements Serializable {
     private BigDecimal kappa;
     @Basic(optional = false)
     @Column(name = "revision_count")
-    private int revisionCount;
+    private Integer revisionCount;
     @JoinColumn(name = "pid", referencedColumnName = "pid")
     @ManyToOne(optional = false)
     private Projects pid;
@@ -81,7 +81,7 @@ public class Metrics implements Serializable {
         this.mid = mid;
     }
 
-    public Metrics(Integer mid, String filePath, BigDecimal interestEu, String sha, int revisionCount) {
+    public Metrics(Integer mid, String filePath, BigDecimal interestEu, String sha, Integer revisionCount) {
         this.mid = mid;
         this.filePath = filePath;
         this.interestEu = interestEu;
@@ -233,11 +233,11 @@ public class Metrics implements Serializable {
         this.kappa = kappa;
     }
 
-    public int getRevisionCount() {
+    public Integer getRevisionCount() {
         return revisionCount;
     }
 
-    public void setRevisionCount(int revisionCount) {
+    public void setRevisionCount(Integer revisionCount) {
         this.revisionCount = revisionCount;
     }
 

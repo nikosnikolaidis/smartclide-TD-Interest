@@ -9,12 +9,12 @@ import java.math.BigDecimal;
 public class CumulativeInterest {
 	
 	private String sha;
-	private int revisionCount;
+	private Integer revisionCount;
 	private BigDecimal interestEu;
 	
 	public CumulativeInterest() { }
 	
-	public CumulativeInterest(String sha, int revisionCount, BigDecimal interestEu) {
+	public CumulativeInterest(String sha, Integer revisionCount, BigDecimal interestEu) {
 		this.sha = sha;
 		this.revisionCount = revisionCount;
 		this.interestEu = interestEu;
@@ -32,7 +32,7 @@ public class CumulativeInterest {
 		return revisionCount;
 	}
 
-	public void setRevisionCount(int revisionCount) {
+	public void setRevisionCount(Integer revisionCount) {
 		this.revisionCount = revisionCount;
 	}
 

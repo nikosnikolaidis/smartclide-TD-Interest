@@ -5,12 +5,12 @@ import java.math.BigDecimal;
 public class InterestPerCommitFile {
     private String sha;
     private String filePath;
-    private int revisionCount;
+    private Integer revisionCount;
     private BigDecimal interestEu;
 
     public InterestPerCommitFile() { }
 
-    public InterestPerCommitFile(String sha, String filePath, int revisionCount, BigDecimal interestEu) {
+    public InterestPerCommitFile(String sha, String filePath, Integer revisionCount, BigDecimal interestEu) {
         this.sha = sha;
         this.filePath = filePath;
         this.revisionCount = revisionCount;
@@ -33,11 +33,11 @@ public class InterestPerCommitFile {
         this.filePath = filePath;
     }
 
-    public int getRevisionCount() {
+    public Integer getRevisionCount() {
         return revisionCount;
     }
 
-    public void setRevisionCount(int revisionCount) {
+    public void setRevisionCount(Integer revisionCount) {
         this.revisionCount = revisionCount;
     }
 

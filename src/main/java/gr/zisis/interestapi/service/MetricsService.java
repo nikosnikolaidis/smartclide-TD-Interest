@@ -2,9 +2,7 @@ package gr.zisis.interestapi.service;
 
 import java.util.Collection;
 
-import gr.zisis.interestapi.controller.response.entity.CumulativeInterest;
-import gr.zisis.interestapi.controller.response.entity.CumulativeInterestPerCommit;
-import gr.zisis.interestapi.controller.response.entity.InterestPerCommitFile;
+import gr.zisis.interestapi.controller.response.entity.*;
 
 /**
  * @author George Digkas <digasgeo@gmail.com>
@@ -12,10 +10,23 @@ import gr.zisis.interestapi.controller.response.entity.InterestPerCommitFile;
  */
 public interface MetricsService {
 
-	Collection<CumulativeInterest> findCumulativeInterest(String url);
+	Collection<CumulativeInterest> findCumulativeInterestPerCommit(String url);
 
-	Collection<CumulativeInterestPerCommit> findCumulativeInterestPerCommit(String url, String sha);
+	Collection<CumulativeInterest> findCumulativeInterest(String url, String sha);
 
 	Collection<InterestPerCommitFile> findInterestPerCommitFile(String url, String filePath, String sha);
 
+	Collection<InterestChangePerCommit> findLastCommitInterestChange(String url, String sha);
+
+	Collection<NormalizedInterest> findNormalizedInterest(String url);
+
+	Collection<NormalizedInterest> findNormalizedInterestPerCommit(String url, String sha);
+
+	Collection<HighInterestFile> findHighInterestFiles(String url);
+
+	Collection<HighInterestFile> findHighInterestFiles(String url, String sha);
+
+	Collection<HighInterestFile> findHighInterestFiles(String url, Integer limit);
+
+	Collection<HighInterestFile> findHighInterestFiles(String url, String sha, Integer limit);
 }
