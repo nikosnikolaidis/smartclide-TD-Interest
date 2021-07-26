@@ -4,6 +4,8 @@ import java.util.Collection;
 
 import gr.zisis.interestapi.controller.response.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import gr.zisis.interestapi.persistence.MetricsRepository;
@@ -49,23 +51,8 @@ public class MetricsServiceBean implements MetricsService {
 	}
 
 	@Override
-	public Collection<HighInterestFile> findHighInterestFiles(String url) {
-		return metricsRepository.findHighInterestFiles(url);
-	}
-
-	@Override
-	public Collection<HighInterestFile> findHighInterestFiles(String url, String sha) {
-		return metricsRepository.findHighInterestFiles(url, sha);
-	}
-
-	@Override
-	public Collection<HighInterestFile> findHighInterestFiles(String url, Integer limit) {
-		return metricsRepository.findHighInterestFiles(url, limit);
-	}
-
-	@Override
-	public Collection<HighInterestFile> findHighInterestFiles(String url, String sha, Integer limit) {
-		return metricsRepository.findHighInterestFiles(url, sha, limit);
+	public Slice<HighInterestFile> findHighInterestFiles(Pageable pageable, String url, String sha) {
+		return metricsRepository.findHighInterestFiles(pageable, url, sha);
 	}
 
 }

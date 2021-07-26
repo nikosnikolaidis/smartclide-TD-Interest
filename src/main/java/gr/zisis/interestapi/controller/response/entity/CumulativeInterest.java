@@ -1,6 +1,7 @@
 package gr.zisis.interestapi.controller.response.entity;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * @author George Digkas <digasgeo@gmail.com>
@@ -45,37 +46,15 @@ public class CumulativeInterest {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((interestEu == null) ? 0 : interestEu.hashCode());
-		result = prime * result + revisionCount;
-		result = prime * result + ((sha == null) ? 0 : sha.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		CumulativeInterest that = (CumulativeInterest) o;
+		return Objects.equals(sha, that.sha) && Objects.equals(revisionCount, that.revisionCount) && Objects.equals(interestEu, that.interestEu);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CumulativeInterest other = (CumulativeInterest) obj;
-		if (interestEu == null) {
-			if (other.interestEu != null)
-				return false;
-		} else if (!interestEu.equals(other.interestEu))
-			return false;
-		if (revisionCount != other.revisionCount)
-			return false;
-		if (sha == null) {
-			if (other.sha != null)
-				return false;
-		} else if (!sha.equals(other.sha))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(sha, revisionCount, interestEu);
 	}
-	
 }

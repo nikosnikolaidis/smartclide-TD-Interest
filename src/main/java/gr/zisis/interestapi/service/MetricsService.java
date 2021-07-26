@@ -3,6 +3,8 @@ package gr.zisis.interestapi.service;
 import java.util.Collection;
 
 import gr.zisis.interestapi.controller.response.entity.*;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 /**
  * @author George Digkas <digasgeo@gmail.com>
@@ -22,11 +24,6 @@ public interface MetricsService {
 
 	Collection<NormalizedInterest> findNormalizedInterestPerCommit(String url, String sha);
 
-	Collection<HighInterestFile> findHighInterestFiles(String url);
+	Slice<HighInterestFile> findHighInterestFiles(Pageable pageable, String url, String sha);
 
-	Collection<HighInterestFile> findHighInterestFiles(String url, String sha);
-
-	Collection<HighInterestFile> findHighInterestFiles(String url, Integer limit);
-
-	Collection<HighInterestFile> findHighInterestFiles(String url, String sha, Integer limit);
 }
