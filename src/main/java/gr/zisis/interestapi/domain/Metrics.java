@@ -3,6 +3,7 @@ package gr.zisis.interestapi.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Objects;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -70,6 +71,16 @@ public class Metrics implements Serializable {
     @Basic(optional = false)
     @Column(name = "revision_count")
     private Integer revisionCount;
+    @Column(name = "interest_in_hours")
+    private BigDecimal interestHours;
+    @Column(name = "avg_interest_per_loc")
+    private BigDecimal avgInterestPerLoc;
+    @Column(name = "interest_in_avg_loc")
+    private BigDecimal interestInAvgLoc;
+    @Column(name = "sum_interest_per_loc")
+    private BigDecimal sumInterestPerLoc;
+    @Column(name = "cbo")
+    private BigDecimal cbo;
     @JoinColumn(name = "pid", referencedColumnName = "pid")
     @ManyToOne(optional = false)
     private Projects pid;
@@ -249,24 +260,57 @@ public class Metrics implements Serializable {
         this.pid = pid;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (mid != null ? mid.hashCode() : 0);
-        return hash;
+    public BigDecimal getInterestHours() {
+        return interestHours;
+    }
+
+    public void setInterestHours(BigDecimal interestHours) {
+        this.interestHours = interestHours;
+    }
+
+    public BigDecimal getAvgInterestPerLoc() {
+        return avgInterestPerLoc;
+    }
+
+    public void setAvgInterestPerLoc(BigDecimal avgInterestPerLoc) {
+        this.avgInterestPerLoc = avgInterestPerLoc;
+    }
+
+    public BigDecimal getInterestInAvgLoc() {
+        return interestInAvgLoc;
+    }
+
+    public void setInterestInAvgLoc(BigDecimal interestInAvgLoc) {
+        this.interestInAvgLoc = interestInAvgLoc;
+    }
+
+    public BigDecimal getSumInterestPerLoc() {
+        return sumInterestPerLoc;
+    }
+
+    public void setSumInterestPerLoc(BigDecimal sumInterestPerLoc) {
+        this.sumInterestPerLoc = sumInterestPerLoc;
+    }
+
+    public BigDecimal getCbo() {
+        return cbo;
+    }
+
+    public void setCbo(BigDecimal cbo) {
+        this.cbo = cbo;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Metrics)) {
-            return false;
-        }
-        Metrics other = (Metrics) object;
-        if ((this.mid == null && other.mid != null) || (this.mid != null && !this.mid.equals(other.mid))) {
-            return false;
-        }
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Metrics metrics = (Metrics) o;
+        return Objects.equals(classesNum, metrics.classesNum) && Objects.equals(complexity, metrics.complexity) && Objects.equals(dac, metrics.dac) && Objects.equals(dit, metrics.dit) && Objects.equals(filePath, metrics.filePath) && Objects.equals(interestEu, metrics.interestEu) && Objects.equals(lcom, metrics.lcom) && Objects.equals(mid, metrics.mid) && Objects.equals(mpc, metrics.mpc) && Objects.equals(nocc, metrics.nocc) && Objects.equals(oldSize1, metrics.oldSize1) && Objects.equals(rfc, metrics.rfc) && Objects.equals(sha, metrics.sha) && Objects.equals(size1, metrics.size1) && Objects.equals(size2, metrics.size2) && Objects.equals(wmc, metrics.wmc) && Objects.equals(nom, metrics.nom) && Objects.equals(kappa, metrics.kappa) && Objects.equals(revisionCount, metrics.revisionCount) && Objects.equals(interestHours, metrics.interestHours) && Objects.equals(avgInterestPerLoc, metrics.avgInterestPerLoc) && Objects.equals(interestInAvgLoc, metrics.interestInAvgLoc) && Objects.equals(sumInterestPerLoc, metrics.sumInterestPerLoc) && Objects.equals(cbo, metrics.cbo) && Objects.equals(pid, metrics.pid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(classesNum, complexity, dac, dit, filePath, interestEu, lcom, mid, mpc, nocc, oldSize1, rfc, sha, size1, size2, wmc, nom, kappa, revisionCount, interestHours, avgInterestPerLoc, interestInAvgLoc, sumInterestPerLoc, cbo, pid);
     }
 
     @Override

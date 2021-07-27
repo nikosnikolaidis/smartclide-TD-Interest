@@ -2,6 +2,7 @@ package gr.zisis.interestapi.domain;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -31,6 +32,12 @@ public class Projects implements Serializable {
     @Column(name = "pid")
     private Integer pid;
     @Basic(optional = false)
+    @Column(name = "owner")
+    private String owner;
+    @Basic(optional = false)
+    @Column(name = "repo")
+    private String repo;
+    @Basic(optional = false)
     @Column(name = "url")
     private String url;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pid")
@@ -43,8 +50,10 @@ public class Projects implements Serializable {
         this.pid = pid;
     }
 
-    public Projects(Integer pid, String url) {
+    public Projects(Integer pid, String owner, String repo, String url) {
         this.pid = pid;
+        this.owner = owner;
+        this.repo = repo;
         this.url = url;
     }
 
@@ -64,33 +73,42 @@ public class Projects implements Serializable {
         this.url = url;
     }
 
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getRepo() {
+        return repo;
+    }
+
+    public void setRepo(String repo) {
+        this.repo = repo;
+    }
+
     @XmlTransient
     public Collection<Metrics> getMetricsCollection() {
         return metricsCollection;
     }
 
-    public void setMetricsCollection(Collection<Metrics> metricsCollection) {
-        this.metricsCollection = metricsCollection;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Projects projects = (Projects) o;
+        return Objects.equals(pid, projects.pid) && Objects.equals(owner, projects.owner) && Objects.equals(repo, projects.repo) && Objects.equals(url, projects.url) && Objects.equals(metricsCollection, projects.metricsCollection);
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (pid != null ? pid.hashCode() : 0);
-        return hash;
+        return Objects.hash(pid, owner, repo, url, metricsCollection);
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Projects)) {
-            return false;
-        }
-        Projects other = (Projects) object;
-        if ((this.pid == null && other.pid != null) || (this.pid != null && !this.pid.equals(other.pid))) {
-            return false;
-        }
-        return true;
+    public void setMetricsCollection(Collection<Metrics> metricsCollection) {
+        this.metricsCollection = metricsCollection;
     }
 
     @Override

@@ -6,14 +6,16 @@ import java.util.Objects;
 public class NormalizedInterest {
     private String sha;
     private Integer revisionCount;
-    private BigDecimal normalizedInterest;
+    private BigDecimal normalizedInterestEu;
+    private BigDecimal normalizedInterestHours;
 
     public NormalizedInterest() { }
 
-    public NormalizedInterest(String sha, Integer revisionCount, BigDecimal normalizedInterest) {
+    public NormalizedInterest(String sha, Integer revisionCount, BigDecimal normalizedInterestEu, BigDecimal normalizedInterestHours) {
         this.sha = sha;
         this.revisionCount = revisionCount;
-        this.normalizedInterest = normalizedInterest;
+        this.normalizedInterestEu = normalizedInterestEu;
+        this.normalizedInterestHours = normalizedInterestHours;
     }
 
     public String getSha() {
@@ -32,12 +34,20 @@ public class NormalizedInterest {
         this.revisionCount = revisionCount;
     }
 
-    public BigDecimal getNormalizedInterest() {
-        return normalizedInterest;
+    public BigDecimal getNormalizedInterestEu() {
+        return normalizedInterestEu;
     }
 
-    public void setNormalizedInterest(BigDecimal normalizedInterest) {
-        this.normalizedInterest = normalizedInterest;
+    public void setNormalizedInterestEu(BigDecimal normalizedInterestEu) {
+        this.normalizedInterestEu = normalizedInterestEu;
+    }
+
+    public BigDecimal getNormalizedInterestHours() {
+        return normalizedInterestHours;
+    }
+
+    public void setNormalizedInterestHours(BigDecimal normalizedInterestHours) {
+        this.normalizedInterestHours = normalizedInterestHours;
     }
 
     @Override
@@ -45,11 +55,11 @@ public class NormalizedInterest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NormalizedInterest that = (NormalizedInterest) o;
-        return Objects.equals(sha, that.sha) && Objects.equals(revisionCount, that.revisionCount) && Objects.equals(normalizedInterest, that.normalizedInterest);
+        return Objects.equals(sha, that.sha) && Objects.equals(revisionCount, that.revisionCount) && Objects.equals(normalizedInterestEu, that.normalizedInterestEu) && Objects.equals(normalizedInterestHours, that.normalizedInterestHours);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sha, revisionCount, normalizedInterest);
+        return Objects.hash(sha, revisionCount, normalizedInterestEu, normalizedInterestHours);
     }
 }

@@ -8,14 +8,16 @@ public class InterestPerCommitFile {
     private String filePath;
     private Integer revisionCount;
     private BigDecimal interestEu;
+    private BigDecimal interestHours;
 
     public InterestPerCommitFile() { }
 
-    public InterestPerCommitFile(String sha, String filePath, Integer revisionCount, BigDecimal interestEu) {
+    public InterestPerCommitFile(String sha, String filePath, Integer revisionCount, BigDecimal interestEu, BigDecimal interestHours) {
         this.sha = sha;
         this.filePath = filePath;
         this.revisionCount = revisionCount;
         this.interestEu = interestEu;
+        this.interestHours = interestHours;
     }
 
     public String getSha() {
@@ -50,16 +52,24 @@ public class InterestPerCommitFile {
         this.interestEu = interestEu;
     }
 
+    public BigDecimal getInterestHours() {
+        return interestHours;
+    }
+
+    public void setInterestHours(BigDecimal interestHours) {
+        this.interestHours = interestHours;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InterestPerCommitFile that = (InterestPerCommitFile) o;
-        return Objects.equals(sha, that.sha) && Objects.equals(filePath, that.filePath) && Objects.equals(revisionCount, that.revisionCount) && Objects.equals(interestEu, that.interestEu);
+        return Objects.equals(sha, that.sha) && Objects.equals(filePath, that.filePath) && Objects.equals(revisionCount, that.revisionCount) && Objects.equals(interestEu, that.interestEu) && Objects.equals(interestHours, that.interestHours);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sha, filePath, revisionCount, interestEu);
+        return Objects.hash(sha, filePath, revisionCount, interestEu, interestHours);
     }
 }

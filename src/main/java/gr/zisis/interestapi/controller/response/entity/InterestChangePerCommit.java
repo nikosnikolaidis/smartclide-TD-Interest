@@ -6,15 +6,17 @@ import java.util.Objects;
 public class InterestChangePerCommit {
     private String sha;
     private Integer revisionCount;
-    private BigDecimal change;
+    private BigDecimal changeEu;
+    private BigDecimal changeHours;
     private BigDecimal changePercentage;
 
     public InterestChangePerCommit() { }
 
-    public InterestChangePerCommit(String sha, Integer revisionCount, BigDecimal change, BigDecimal changePercentage) {
+    public InterestChangePerCommit(String sha, Integer revisionCount, BigDecimal changeEu, BigDecimal changeHours, BigDecimal changePercentage) {
         this.sha = sha;
         this.revisionCount = revisionCount;
-        this.change = change;
+        this.changeEu = changeEu;
+        this.changeHours = changeHours;
         this.changePercentage = changePercentage;
     }
 
@@ -34,12 +36,12 @@ public class InterestChangePerCommit {
         this.revisionCount = revisionCount;
     }
 
-    public BigDecimal getChange() {
-        return change;
+    public BigDecimal getChangeEu() {
+        return changeEu;
     }
 
-    public void setChange(BigDecimal change) {
-        this.change = change;
+    public void setChangeEu(BigDecimal changeEu) {
+        this.changeEu = changeEu;
     }
 
     public BigDecimal getChangePercentage() {
@@ -50,16 +52,24 @@ public class InterestChangePerCommit {
         this.changePercentage = changePercentage;
     }
 
+    public BigDecimal getChangeHours() {
+        return changeHours;
+    }
+
+    public void setChangeHours(BigDecimal changeHours) {
+        this.changeHours = changeHours;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InterestChangePerCommit that = (InterestChangePerCommit) o;
-        return Objects.equals(sha, that.sha) && Objects.equals(revisionCount, that.revisionCount) && Objects.equals(change, that.change) && Objects.equals(changePercentage, that.changePercentage);
+        return Objects.equals(sha, that.sha) && Objects.equals(revisionCount, that.revisionCount) && Objects.equals(changeEu, that.changeEu) && Objects.equals(changeHours, that.changeHours) && Objects.equals(changePercentage, that.changePercentage);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sha, revisionCount, change, changePercentage);
+        return Objects.hash(sha, revisionCount, changeEu, changeHours, changePercentage);
     }
 }
