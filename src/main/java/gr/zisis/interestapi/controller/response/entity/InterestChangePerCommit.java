@@ -5,14 +5,14 @@ import java.util.Objects;
 
 public class InterestChangePerCommit {
     private String sha;
-    private Integer revisionCount;
+    private Long revisionCount;
     private BigDecimal changeEu;
     private BigDecimal changeHours;
     private BigDecimal changePercentage;
 
     public InterestChangePerCommit() { }
 
-    public InterestChangePerCommit(String sha, Integer revisionCount, BigDecimal changeEu, BigDecimal changeHours, BigDecimal changePercentage) {
+    public InterestChangePerCommit(String sha, Long revisionCount, BigDecimal changeEu, BigDecimal changeHours, BigDecimal changePercentage) {
         this.sha = sha;
         this.revisionCount = revisionCount;
         this.changeEu = changeEu;
@@ -28,11 +28,11 @@ public class InterestChangePerCommit {
         this.sha = sha;
     }
 
-    public int getRevisionCount() {
+    public Long getRevisionCount() {
         return revisionCount;
     }
 
-    public void setRevisionCount(Integer revisionCount) {
+    public void setRevisionCount(Long revisionCount) {
         this.revisionCount = revisionCount;
     }
 

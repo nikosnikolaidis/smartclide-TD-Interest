@@ -6,13 +6,13 @@ import java.util.Objects;
 public class InterestPerCommitFile {
     private String sha;
     private String filePath;
-    private Integer revisionCount;
+    private Long revisionCount;
     private BigDecimal interestEu;
     private BigDecimal interestHours;
 
     public InterestPerCommitFile() { }
 
-    public InterestPerCommitFile(String sha, String filePath, Integer revisionCount, BigDecimal interestEu, BigDecimal interestHours) {
+    public InterestPerCommitFile(String sha, String filePath, Long revisionCount, BigDecimal interestEu, BigDecimal interestHours) {
         this.sha = sha;
         this.filePath = filePath;
         this.revisionCount = revisionCount;
@@ -36,11 +36,11 @@ public class InterestPerCommitFile {
         this.filePath = filePath;
     }
 
-    public Integer getRevisionCount() {
+    public Long getRevisionCount() {
         return revisionCount;
     }
 
-    public void setRevisionCount(Integer revisionCount) {
+    public void setRevisionCount(Long revisionCount) {
         this.revisionCount = revisionCount;
     }
 

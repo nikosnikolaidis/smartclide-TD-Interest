@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class HighInterestFile {
     private String sha;
-    private Integer revisionCount;
+    private Long revisionCount;
     private String filePath;
     private BigDecimal interestEu;
     private BigDecimal interestHours;
@@ -13,7 +13,7 @@ public class HighInterestFile {
 
     public HighInterestFile() { }
 
-    public HighInterestFile(String sha, Integer revisionCount, String filePath, BigDecimal interestEu, BigDecimal interestHours, BigDecimal interestPercentageOfProject) {
+    public HighInterestFile(String sha, Long revisionCount, String filePath, BigDecimal interestEu, BigDecimal interestHours, BigDecimal interestPercentageOfProject) {
         this.sha = sha;
         this.revisionCount = revisionCount;
         this.filePath = filePath;
@@ -30,11 +30,11 @@ public class HighInterestFile {
         this.sha = sha;
     }
 
-    public Integer getRevisionCount() {
+    public Long getRevisionCount() {
         return revisionCount;
     }
 
-    public void setRevisionCount(Integer revisionCount) {
+    public void setRevisionCount(Long revisionCount) {
         this.revisionCount = revisionCount;
     }
 

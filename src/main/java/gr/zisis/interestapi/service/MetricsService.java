@@ -16,7 +16,7 @@ public interface MetricsService {
 
 	Collection<CumulativeInterest> findCumulativeInterest(String url, String sha);
 
-	Collection<InterestPerCommitFile> findInterestPerCommitFile(String url, String filePath, String sha);
+	Collection<InterestPerCommitFile> findInterestPerCommitFile(String url, String sha, String filePath);
 
 	Collection<InterestChangePerCommit> findLastCommitInterestChange(String url, String sha);
 
