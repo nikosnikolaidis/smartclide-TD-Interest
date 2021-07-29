@@ -30,8 +30,8 @@ public class InterestController {
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/interestPerCommitFile")
-    Collection<InterestPerCommitFile> getInterestPerCommitFile(@RequestParam(required = true) String url, @RequestParam(required = true) String filePath, @RequestParam(required = true) String sha) {
-        return metricsService.findInterestPerCommitFile(url, filePath, sha);
+    Collection<InterestPerCommitFile> getInterestPerCommitFile(@RequestParam(required = true) String url, @RequestParam(required = true) String sha, @RequestParam(required = true) String filePath) {
+        return metricsService.findInterestPerCommitFile(url, sha, filePath);
     }
 
     @CrossOrigin(origins = "*")

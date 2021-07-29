@@ -3,17 +3,10 @@ package gr.zisis.interestapi.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Objects;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -35,9 +28,6 @@ public class Metrics implements Serializable {
     @Column(name = "dit")
     private Integer dit;
     @Basic(optional = false)
-    @Column(name = "file_path")
-    private String filePath;
-    @Basic(optional = false)
     @Column(name = "interest_eu")
     private BigDecimal interestEu;
     @Column(name = "lcom")
@@ -46,7 +36,7 @@ public class Metrics implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "mid")
-    private Integer mid;
+    private Long mid;
     @Column(name = "mpc")
     private BigDecimal mpc;
     @Column(name = "nocc")
@@ -70,7 +60,7 @@ public class Metrics implements Serializable {
     private BigDecimal kappa;
     @Basic(optional = false)
     @Column(name = "revision_count")
-    private Integer revisionCount;
+    private Long revisionCount;
     @Column(name = "interest_in_hours")
     private BigDecimal interestHours;
     @Column(name = "avg_interest_per_loc")
@@ -84,20 +74,40 @@ public class Metrics implements Serializable {
     @JoinColumn(name = "pid", referencedColumnName = "pid")
     @ManyToOne(optional = false)
     private Projects pid;
+    @JoinColumn(name = "fid", referencedColumnName = "fid")
+    @ManyToOne(optional = false)
+    private Files fid;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fid")
+    private Collection<Files> filesCollection;
 
     public Metrics() {
     }
 
-    public Metrics(Integer mid) {
+    public Metrics(Long mid) {
         this.mid = mid;
     }
 
-    public Metrics(Integer mid, String filePath, BigDecimal interestEu, String sha, Integer revisionCount) {
+    public Metrics(Long mid, BigDecimal interestEu, String sha, Long revisionCount) {
         this.mid = mid;
-        this.filePath = filePath;
         this.interestEu = interestEu;
         this.sha = sha;
         this.revisionCount = revisionCount;
+    }
+
+    public Files getFid() {
+        return fid;
+    }
+
+    public void setFid(Files fid) {
+        this.fid = fid;
+    }
+
+    public Collection<Files> getFilesCollection() {
+        return filesCollection;
+    }
+
+    public void setFilesCollection(Collection<Files> filesCollection) {
+        this.filesCollection = filesCollection;
     }
 
     public Integer getClassesNum() {
@@ -132,14 +142,6 @@ public class Metrics implements Serializable {
         this.dit = dit;
     }
 
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
     public BigDecimal getInterestEu() {
         return interestEu;
     }
@@ -156,11 +158,11 @@ public class Metrics implements Serializable {
         this.lcom = lcom;
     }
 
-    public Integer getMid() {
+    public Long getMid() {
         return mid;
     }
 
-    public void setMid(Integer mid) {
+    public void setMid(Long mid) {
         this.mid = mid;
     }
 
@@ -244,11 +246,11 @@ public class Metrics implements Serializable {
         this.kappa = kappa;
     }
 
-    public Integer getRevisionCount() {
+    public Long getRevisionCount() {
         return revisionCount;
     }
 
-    public void setRevisionCount(Integer revisionCount) {
+    public void setRevisionCount(Long revisionCount) {
         this.revisionCount = revisionCount;
     }
 
@@ -305,12 +307,12 @@ public class Metrics implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Metrics metrics = (Metrics) o;
-        return Objects.equals(classesNum, metrics.classesNum) && Objects.equals(complexity, metrics.complexity) && Objects.equals(dac, metrics.dac) && Objects.equals(dit, metrics.dit) && Objects.equals(filePath, metrics.filePath) && Objects.equals(interestEu, metrics.interestEu) && Objects.equals(lcom, metrics.lcom) && Objects.equals(mid, metrics.mid) && Objects.equals(mpc, metrics.mpc) && Objects.equals(nocc, metrics.nocc) && Objects.equals(oldSize1, metrics.oldSize1) && Objects.equals(rfc, metrics.rfc) && Objects.equals(sha, metrics.sha) && Objects.equals(size1, metrics.size1) && Objects.equals(size2, metrics.size2) && Objects.equals(wmc, metrics.wmc) && Objects.equals(nom, metrics.nom) && Objects.equals(kappa, metrics.kappa) && Objects.equals(revisionCount, metrics.revisionCount) && Objects.equals(interestHours, metrics.interestHours) && Objects.equals(avgInterestPerLoc, metrics.avgInterestPerLoc) && Objects.equals(interestInAvgLoc, metrics.interestInAvgLoc) && Objects.equals(sumInterestPerLoc, metrics.sumInterestPerLoc) && Objects.equals(cbo, metrics.cbo) && Objects.equals(pid, metrics.pid);
+        return Objects.equals(classesNum, metrics.classesNum) && Objects.equals(complexity, metrics.complexity) && Objects.equals(dac, metrics.dac) && Objects.equals(dit, metrics.dit) && Objects.equals(interestEu, metrics.interestEu) && Objects.equals(lcom, metrics.lcom) && Objects.equals(mid, metrics.mid) && Objects.equals(mpc, metrics.mpc) && Objects.equals(nocc, metrics.nocc) && Objects.equals(oldSize1, metrics.oldSize1) && Objects.equals(rfc, metrics.rfc) && Objects.equals(sha, metrics.sha) && Objects.equals(size1, metrics.size1) && Objects.equals(size2, metrics.size2) && Objects.equals(wmc, metrics.wmc) && Objects.equals(nom, metrics.nom) && Objects.equals(kappa, metrics.kappa) && Objects.equals(revisionCount, metrics.revisionCount) && Objects.equals(interestHours, metrics.interestHours) && Objects.equals(avgInterestPerLoc, metrics.avgInterestPerLoc) && Objects.equals(interestInAvgLoc, metrics.interestInAvgLoc) && Objects.equals(sumInterestPerLoc, metrics.sumInterestPerLoc) && Objects.equals(cbo, metrics.cbo) && Objects.equals(pid, metrics.pid) && Objects.equals(fid, metrics.fid) && Objects.equals(filesCollection, metrics.filesCollection);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(classesNum, complexity, dac, dit, filePath, interestEu, lcom, mid, mpc, nocc, oldSize1, rfc, sha, size1, size2, wmc, nom, kappa, revisionCount, interestHours, avgInterestPerLoc, interestInAvgLoc, sumInterestPerLoc, cbo, pid);
+        return Objects.hash(classesNum, complexity, dac, dit, interestEu, lcom, mid, mpc, nocc, oldSize1, rfc, sha, size1, size2, wmc, nom, kappa, revisionCount, interestHours, avgInterestPerLoc, interestInAvgLoc, sumInterestPerLoc, cbo, pid, fid, filesCollection);
     }
 
     @Override

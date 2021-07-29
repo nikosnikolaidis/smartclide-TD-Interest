@@ -1,6 +1,7 @@
 package gr.zisis.interestapi.domain;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -30,7 +31,7 @@ public class Projects implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "pid")
-    private Integer pid;
+    private Long pid;
     @Basic(optional = false)
     @Column(name = "owner")
     private String owner;
@@ -42,26 +43,36 @@ public class Projects implements Serializable {
     private String url;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pid")
     private Collection<Metrics> metricsCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pid")
+    private Collection<Files> filesCollection;
 
     public Projects() {
     }
 
-    public Projects(Integer pid) {
+    public Projects(Long pid) {
         this.pid = pid;
     }
 
-    public Projects(Integer pid, String owner, String repo, String url) {
+    public Projects(Long pid, String owner, String repo, String url) {
         this.pid = pid;
         this.owner = owner;
         this.repo = repo;
         this.url = url;
     }
 
-    public Integer getPid() {
+    public Collection<Files> getFilesCollection() {
+        return filesCollection;
+    }
+
+    public void setFilesCollection(Collection<Files> filesCollection) {
+        this.filesCollection = filesCollection;
+    }
+
+    public Long getPid() {
         return pid;
     }
 
-    public void setPid(Integer pid) {
+    public void setPid(Long pid) {
         this.pid = pid;
     }
 
@@ -99,12 +110,12 @@ public class Projects implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Projects projects = (Projects) o;
-        return Objects.equals(pid, projects.pid) && Objects.equals(owner, projects.owner) && Objects.equals(repo, projects.repo) && Objects.equals(url, projects.url) && Objects.equals(metricsCollection, projects.metricsCollection);
+        return Objects.equals(pid, projects.pid) && Objects.equals(owner, projects.owner) && Objects.equals(repo, projects.repo) && Objects.equals(url, projects.url) && Objects.equals(metricsCollection, projects.metricsCollection) && Objects.equals(filesCollection, projects.filesCollection);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pid, owner, repo, url, metricsCollection);
+        return Objects.hash(pid, owner, repo, url, metricsCollection, filesCollection);
     }
 
     public void setMetricsCollection(Collection<Metrics> metricsCollection) {

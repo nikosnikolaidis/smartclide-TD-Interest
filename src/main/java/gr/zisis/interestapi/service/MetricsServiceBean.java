@@ -31,8 +31,8 @@ public class MetricsServiceBean implements MetricsService {
 	}
 
 	@Override
-	public Collection<InterestPerCommitFile> findInterestPerCommitFile(String url, String filePath, String sha) {
-		return metricsRepository.findInterestPerCommitFile(url, filePath, sha);
+	public Collection<InterestPerCommitFile> findInterestPerCommitFile(String url, String sha, String filePath) {
+		return metricsRepository.findInterestPerCommitFile(url, sha, filePath);
 	}
 
 	@Override

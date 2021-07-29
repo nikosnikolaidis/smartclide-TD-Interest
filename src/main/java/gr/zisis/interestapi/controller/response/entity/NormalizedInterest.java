@@ -5,13 +5,13 @@ import java.util.Objects;
 
 public class NormalizedInterest {
     private String sha;
-    private Integer revisionCount;
+    private Long revisionCount;
     private BigDecimal normalizedInterestEu;
     private BigDecimal normalizedInterestHours;
 
     public NormalizedInterest() { }
 
-    public NormalizedInterest(String sha, Integer revisionCount, BigDecimal normalizedInterestEu, BigDecimal normalizedInterestHours) {
+    public NormalizedInterest(String sha, Long revisionCount, BigDecimal normalizedInterestEu, BigDecimal normalizedInterestHours) {
         this.sha = sha;
         this.revisionCount = revisionCount;
         this.normalizedInterestEu = normalizedInterestEu;
@@ -26,11 +26,11 @@ public class NormalizedInterest {
         this.sha = sha;
     }
 
-    public Integer getRevisionCount() {
+    public Long getRevisionCount() {
         return revisionCount;
     }
 
-    public void setRevisionCount(Integer revisionCount) {
+    public void setRevisionCount(Long revisionCount) {
         this.revisionCount = revisionCount;
     }
 

@@ -10,13 +10,13 @@ import java.util.Objects;
 public class CumulativeInterest {
 	
 	private String sha;
-	private Integer revisionCount;
+	private Long revisionCount;
 	private BigDecimal interestEu;
 	private BigDecimal interestHours;
 
 	public CumulativeInterest() { }
 	
-	public CumulativeInterest(String sha, Integer revisionCount, BigDecimal interestEu, BigDecimal interestHours) {
+	public CumulativeInterest(String sha, Long revisionCount, BigDecimal interestEu, BigDecimal interestHours) {
 		this.sha = sha;
 		this.revisionCount = revisionCount;
 		this.interestEu = interestEu;
@@ -31,11 +31,11 @@ public class CumulativeInterest {
 		this.sha = sha;
 	}
 
-	public int getRevisionCount() {
+	public Long getRevisionCount() {
 		return revisionCount;
 	}
 
-	public void setRevisionCount(Integer revisionCount) {
+	public void setRevisionCount(Long revisionCount) {
 		this.revisionCount = revisionCount;
 	}
 
