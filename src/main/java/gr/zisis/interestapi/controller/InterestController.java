@@ -25,13 +25,13 @@ public class InterestController {
     Collection<CumulativeInterest> getCumulativeInterestPerCommit(@RequestParam(required = true) String url, @RequestParam(required = false) String sha) {
         if (Objects.isNull(sha))
             return metricsService.findCumulativeInterestPerCommit(url);
-        return metricsService.findCumulativeInterest(url, sha);
+        return metricsService.findCumulativeInterestByCommit(url, sha);
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/interestPerCommitFile")
     Collection<InterestPerCommitFile> getInterestPerCommitFile(@RequestParam(required = true) String url, @RequestParam(required = true) String sha, @RequestParam(required = true) String filePath) {
-        return metricsService.findInterestPerCommitFile(url, sha, filePath);
+        return metricsService.findInterestByCommitFile(url, sha, filePath);
     }
 
     @CrossOrigin(origins = "*")
@@ -43,13 +43,19 @@ public class InterestController {
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/normalizedInterest")
     Collection<NormalizedInterest> getNormalizedInterest(@RequestParam(required = true) String url, @RequestParam(required = false) String sha) {
-        return (Objects.isNull(sha)) ? metricsService.findNormalizedInterest(url) : metricsService.findNormalizedInterestPerCommit(url, sha);
+        return (Objects.isNull(sha)) ? metricsService.findNormalizedInterest(url) : metricsService.findNormalizedInterestByCommit(url, sha);
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/highInterestFiles")
     Collection<HighInterestFile> getHighInterestFiles(@RequestParam(required = true) String url, @RequestParam(required = true) String sha, @RequestParam(required = false) Integer limit) {
         return Objects.isNull(limit) ? metricsService.findHighInterestFiles(null, url, sha).getContent() : metricsService.findHighInterestFiles(PageRequest.of(0, limit), url, sha).getContent();
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "/reusabilityMetrics")
+    Collection<ReusabilityMetrics> getReusabilityMetrics(@RequestParam(required = true) String url, @RequestParam(required = true) String sha, @RequestParam(required = false) Integer limit) {
+        return Objects.isNull(limit) ? metricsService.findReusabilityMetrics(null, url, sha).getContent() : metricsService.findReusabilityMetrics(PageRequest.of(0, limit), url, sha).getContent();
     }
 
 //	@CrossOrigin(origins = "*")

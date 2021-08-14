@@ -1,6 +1,7 @@
 package gr.zisis.interestapi.controller.response.entity;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 /**
@@ -40,7 +41,7 @@ public class CumulativeInterest {
 	}
 
 	public BigDecimal getInterestEu() {
-		return interestEu;
+		return interestEu.setScale(2, RoundingMode.HALF_UP);
 	}
 
 	public void setInterestEu(BigDecimal interestEu) {
@@ -48,7 +49,7 @@ public class CumulativeInterest {
 	}
 
 	public BigDecimal getInterestHours() {
-		return interestHours;
+		return interestHours.setScale(1, RoundingMode.HALF_UP);
 	}
 
 	public void setInterestHours(BigDecimal interestHours) {

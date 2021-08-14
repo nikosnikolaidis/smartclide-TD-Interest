@@ -14,16 +14,18 @@ public interface MetricsService {
 
 	Collection<CumulativeInterest> findCumulativeInterestPerCommit(String url);
 
-	Collection<CumulativeInterest> findCumulativeInterest(String url, String sha);
+	Collection<CumulativeInterest> findCumulativeInterestByCommit(String url, String sha);
 
-	Collection<InterestPerCommitFile> findInterestPerCommitFile(String url, String sha, String filePath);
+	Collection<InterestPerCommitFile> findInterestByCommitFile(String url, String sha, String filePath);
 
 	Collection<InterestChangePerCommit> findLastCommitInterestChange(String url, String sha);
 
 	Collection<NormalizedInterest> findNormalizedInterest(String url);
 
-	Collection<NormalizedInterest> findNormalizedInterestPerCommit(String url, String sha);
+	Collection<NormalizedInterest> findNormalizedInterestByCommit(String url, String sha);
 
 	Slice<HighInterestFile> findHighInterestFiles(Pageable pageable, String url, String sha);
+
+	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha);
 
 }

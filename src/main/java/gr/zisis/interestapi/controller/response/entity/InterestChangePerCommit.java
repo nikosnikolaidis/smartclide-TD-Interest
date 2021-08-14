@@ -1,6 +1,7 @@
 package gr.zisis.interestapi.controller.response.entity;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 public class InterestChangePerCommit {
@@ -37,7 +38,7 @@ public class InterestChangePerCommit {
     }
 
     public BigDecimal getChangeEu() {
-        return changeEu;
+        return changeEu.setScale(2, RoundingMode.HALF_UP);
     }
 
     public void setChangeEu(BigDecimal changeEu) {
@@ -53,7 +54,7 @@ public class InterestChangePerCommit {
     }
 
     public BigDecimal getChangeHours() {
-        return changeHours;
+        return changeHours.setScale(1, RoundingMode.HALF_UP);
     }
 
     public void setChangeHours(BigDecimal changeHours) {

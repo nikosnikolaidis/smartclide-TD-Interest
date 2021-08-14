@@ -26,12 +26,12 @@ public class MetricsServiceBean implements MetricsService {
 	}
 
 	@Override
-	public Collection<CumulativeInterest> findCumulativeInterest(String url, String sha) {
+	public Collection<CumulativeInterest> findCumulativeInterestByCommit(String url, String sha) {
 		return metricsRepository.findCumulativeInterest(url, sha);
 	}
 
 	@Override
-	public Collection<InterestPerCommitFile> findInterestPerCommitFile(String url, String sha, String filePath) {
+	public Collection<InterestPerCommitFile> findInterestByCommitFile(String url, String sha, String filePath) {
 		return metricsRepository.findInterestPerCommitFile(url, sha, filePath);
 	}
 
@@ -46,13 +46,18 @@ public class MetricsServiceBean implements MetricsService {
 	}
 
 	@Override
-	public Collection<NormalizedInterest> findNormalizedInterestPerCommit(String url, String sha) {
+	public Collection<NormalizedInterest> findNormalizedInterestByCommit(String url, String sha) {
 		return metricsRepository.findNormalizedInterestPerCommit(url, sha);
 	}
 
 	@Override
 	public Slice<HighInterestFile> findHighInterestFiles(Pageable pageable, String url, String sha) {
 		return metricsRepository.findHighInterestFiles(pageable, url, sha);
+	}
+
+	@Override
+	public Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha) {
+		return metricsRepository.findReusabilityMetrics(pageable, url, sha);
 	}
 
 }

@@ -18,7 +18,7 @@ import gr.zisis.interestapi.domain.Metrics;
 @Repository
 public interface MetricsRepository extends JpaRepository<Metrics, Integer> {
 
-	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.CumulativeInterest(m.sha, m.revisionCount, SUM(m.interestEu), SUM(m.interestHours)) "
+	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.CumulativeInterest(m.sha, m.revisionCount, ROUND(SUM(m.interestEu), 2), ROUND(SUM(m.interestHours), 1)) "
 			+ "FROM Metrics m "
 			+ "WHERE m.pid = (SELECT p.pid FROM Projects p WHERE p.url = ?1) GROUP BY m.sha, m.revisionCount ORDER BY m.revisionCount")
 	Collection<CumulativeInterest> findCumulativeInterestPerCommit(String url);
@@ -52,5 +52,10 @@ public interface MetricsRepository extends JpaRepository<Metrics, Integer> {
 			+ "FROM Metrics m JOIN Files f ON m.pid = f.pid AND m.fid = f.fid AND m.sha = f.sha "
 			+ "WHERE m.pid = (SELECT p.pid FROM Projects p WHERE p.url = ?1) AND m.sha = ?2 GROUP BY m.sha, m.revisionCount, f.filePath, m.interestEu, m.interestHours ORDER BY m.interestEu DESC")
 	Slice<HighInterestFile> findHighInterestFiles(Pageable pageable, String url, String sha);
+
+	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.ReusabilityMetrics(m.sha, m.revisionCount, f.filePath, m.cbo, m.dit, m.wmc, m.rfc, m.lcom, m.nocc) "
+			+ "FROM Metrics m JOIN Files f ON m.pid = f.pid AND m.fid = f.fid AND m.sha = f.sha "
+			+ "WHERE m.pid = (SELECT p.pid FROM Projects p WHERE p.url = ?1) AND m.sha = ?2 ORDER BY f.filePath")
+	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha);
 
 }
