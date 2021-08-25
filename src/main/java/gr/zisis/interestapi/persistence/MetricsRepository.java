@@ -55,7 +55,17 @@ public interface MetricsRepository extends JpaRepository<Metrics, Integer> {
 
 	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.ReusabilityMetrics(m.sha, m.revisionCount, f.filePath, m.cbo, m.dit, m.wmc, m.rfc, m.lcom, m.nocc) "
 			+ "FROM Metrics m JOIN Files f ON m.pid = f.pid AND m.fid = f.fid AND m.sha = f.sha "
+			+ "WHERE m.pid = (SELECT p.pid FROM Projects p WHERE p.url = ?1) ORDER BY f.filePath")
+	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url);
+
+	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.ReusabilityMetrics(m.sha, m.revisionCount, f.filePath, m.cbo, m.dit, m.wmc, m.rfc, m.lcom, m.nocc) "
+			+ "FROM Metrics m JOIN Files f ON m.pid = f.pid AND m.fid = f.fid AND m.sha = f.sha "
 			+ "WHERE m.pid = (SELECT p.pid FROM Projects p WHERE p.url = ?1) AND m.sha = ?2 ORDER BY f.filePath")
 	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha);
+
+	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.ReusabilityMetrics(m.sha, m.revisionCount, f.filePath, m.cbo, m.dit, m.wmc, m.rfc, m.lcom, m.nocc) "
+			+ "FROM Metrics m JOIN Files f ON m.pid = f.pid AND m.fid = f.fid AND m.sha = f.sha "
+			+ "WHERE m.pid = (SELECT p.pid FROM Projects p WHERE p.url = ?1) AND m.sha = ?2 AND f.filePath = ?3 ORDER BY f.filePath")
+	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha, String filePath);
 
 }

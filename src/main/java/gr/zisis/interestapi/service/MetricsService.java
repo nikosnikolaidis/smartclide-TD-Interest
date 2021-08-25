@@ -28,4 +28,6 @@ public interface MetricsService {
 
 	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha);
 
+	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha, String filePath);
+
 }

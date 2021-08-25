@@ -1,11 +1,18 @@
 package gr.zisis.interestapi.controller;
 
+import java.io.IOException;
+import java.rmi.ServerException;
 import java.util.Collection;
 import java.util.Objects;
 
 import gr.zisis.interestapi.controller.response.entity.*;
+import gr.zisis.interestapi.domain.ProjectDetails;
+import gr.zisis.interestapi.service.ProjectsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import gr.zisis.interestapi.service.MetricsService;
@@ -19,6 +26,9 @@ public class InterestController {
 
     @Autowired
     private MetricsService metricsService;
+
+    @Autowired
+    private ProjectsService projectsService;
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/cumulativeInterest")
@@ -53,16 +63,25 @@ public class InterestController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping(value = "/reusabilityMetrics")
+    @GetMapping(value = "/reusabilityMetricsByCommit")
     Collection<ReusabilityMetrics> getReusabilityMetrics(@RequestParam(required = true) String url, @RequestParam(required = true) String sha, @RequestParam(required = false) Integer limit) {
         return Objects.isNull(limit) ? metricsService.findReusabilityMetrics(null, url, sha).getContent() : metricsService.findReusabilityMetrics(PageRequest.of(0, limit), url, sha).getContent();
     }
 
-//	@CrossOrigin(origins = "*")
-//	@PutMapping(value = "/startInterestAnalysis")
-//	Void startInterestAnalysis(@RequestBody(required = true) Projects newProject) {
-//
-//		return null;
-//	}
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "/reusabilityMetricsByCommitAndFile")
+    Collection<ReusabilityMetrics> getReusabilityMetrics(@RequestParam(required = true) String url, @RequestParam(required = true) String sha, @RequestParam(required = true) String filePath, @RequestParam(required = false) Integer limit) {
+        return Objects.isNull(limit) ? metricsService.findReusabilityMetrics(null, url, sha, filePath).getContent() : metricsService.findReusabilityMetrics(PageRequest.of(0, limit), url, sha, filePath).getContent();
+    }
+
+	@CrossOrigin(origins = "*")
+	@PostMapping(path = "/startInterestAnalysis", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Project> startInterestAnalysis(@RequestBody(required = true) ProjectDetails projectDetails) throws IOException {
+        try {
+            return new ResponseEntity<>(projectsService.save(projectDetails.getUrl()), HttpStatus.CREATED);
+        } catch (IOException | InterruptedException e) {
+            throw new ServerException("IOException");
+        }
+	}
 
 }

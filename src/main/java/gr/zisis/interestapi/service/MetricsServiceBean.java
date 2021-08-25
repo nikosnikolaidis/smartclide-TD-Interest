@@ -60,4 +60,9 @@ public class MetricsServiceBean implements MetricsService {
 		return metricsRepository.findReusabilityMetrics(pageable, url, sha);
 	}
 
+	@Override
+	public Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha, String filePath) {
+		return metricsRepository.findReusabilityMetrics(pageable, url, sha, filePath);
+	}
+
 }
