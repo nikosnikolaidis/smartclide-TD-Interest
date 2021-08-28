@@ -65,4 +65,9 @@ public class MetricsServiceBean implements MetricsService {
 		return metricsRepository.findReusabilityMetrics(pageable, url, sha, filePath);
 	}
 
+	@Override
+	public Slice<AnalyzedCommits> findAnalyzedCommitIds(Pageable pageable, String url) {
+		return metricsRepository.findAnalyzedCommitIds(pageable, url);
+	}
+
 }

@@ -74,7 +74,14 @@ public class InterestController {
         return Objects.isNull(limit) ? metricsService.findReusabilityMetrics(null, url, sha, filePath).getContent() : metricsService.findReusabilityMetrics(PageRequest.of(0, limit), url, sha, filePath).getContent();
     }
 
-	@CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "/analyzedCommitIds")
+    Collection<AnalyzedCommits> getAnalyzedCommitIds(@RequestParam(required = true) String url, @RequestParam(required = false) Integer limit) {
+        return Objects.isNull(limit) ? metricsService.findAnalyzedCommitIds(null, url).getContent() : metricsService.findAnalyzedCommitIds(PageRequest.of(0, limit), url).getContent();
+    }
+
+
+    @CrossOrigin(origins = "*")
 	@PostMapping(path = "/startInterestAnalysis", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Project> startInterestAnalysis(@RequestBody(required = true) ProjectDetails projectDetails) throws IOException {
         try {

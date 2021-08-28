@@ -68,4 +68,9 @@ public interface MetricsRepository extends JpaRepository<Metrics, Integer> {
 			+ "WHERE m.pid = (SELECT p.pid FROM Projects p WHERE p.url = ?1) AND m.sha = ?2 AND f.filePath = ?3 ORDER BY f.filePath")
 	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha, String filePath);
 
+	@Query(value = "SELECT DISTINCT new gr.zisis.interestapi.controller.response.entity.AnalyzedCommits(m.sha, m.revisionCount) "
+			+ "FROM Metrics m "
+			+ "WHERE m.pid = (SELECT p.pid FROM Projects p WHERE p.url = ?1) ORDER BY m.revisionCount DESC")
+	Slice<AnalyzedCommits> findAnalyzedCommitIds(Pageable pageable, String url);
+
 }
