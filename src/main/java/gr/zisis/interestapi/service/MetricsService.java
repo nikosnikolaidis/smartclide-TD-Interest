@@ -30,6 +30,6 @@ public interface MetricsService {
 
 	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha, String filePath);
 
-	Slice<AnalyzedCommits> findAnalyzedCommitIds(Pageable pageable, String url);
+	Slice<AnalyzedCommits> findAnalyzedCommits(Pageable pageable, String url);
 
 }

@@ -66,8 +66,8 @@ public class MetricsServiceBean implements MetricsService {
 	}
 
 	@Override
-	public Slice<AnalyzedCommits> findAnalyzedCommitIds(Pageable pageable, String url) {
-		return metricsRepository.findAnalyzedCommitIds(pageable, url);
+	public Slice<AnalyzedCommits> findAnalyzedCommits(Pageable pageable, String url) {
+		return metricsRepository.findAnalyzedCommits(pageable, url);
 	}
 
 }

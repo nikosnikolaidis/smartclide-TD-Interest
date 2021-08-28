@@ -40,12 +40,12 @@ public interface MetricsRepository extends JpaRepository<Metrics, Integer> {
 
 	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.NormalizedInterest(m.sha, m.revisionCount, SUM(m.interestEu)/SUM(m.size1), SUM(m.interestHours)/SUM(m.size1)) "
 			+ "FROM Metrics m "
-			+ "WHERE m.pid = (SELECT p.pid FROM Projects p WHERE p.url = ?1) GROUP BY m.sha, m.revisionCount")
+			+ "WHERE m.pid = (SELECT p.pid FROM Projects p WHERE p.url = ?1) GROUP BY m.sha, m.revisionCount HAVING SUM(m.size1) <> 0 ORDER BY m.revisionCount")
 	Collection<NormalizedInterest> findNormalizedInterest(String url);
 
 	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.NormalizedInterest(m.sha, m.revisionCount, SUM(m.interestEu)/SUM(m.size1), SUM(m.interestHours)/SUM(m.size1)) "
 			+ "FROM Metrics m "
-			+ "WHERE m.pid = (SELECT p.pid FROM Projects p WHERE p.url = ?1) AND sha = ?2 GROUP BY m.sha, m.revisionCount")
+			+ "WHERE m.pid = (SELECT p.pid FROM Projects p WHERE p.url = ?1) AND sha = ?2 GROUP BY m.sha, m.revisionCount HAVING SUM(m.size1) <> 0")
 	Collection<NormalizedInterest> findNormalizedInterestPerCommit(String url, String sha);
 
 	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.HighInterestFile(m.sha, m.revisionCount, f.filePath, m.interestEu, m.interestHours, m.interestEu/(SELECT SUM(m2.interestEu) FROM Metrics m2 WHERE m2.pid = (SELECT p.pid FROM Projects p WHERE p.url = ?1) AND m2.sha = ?2)) "
@@ -71,6 +71,6 @@ public interface MetricsRepository extends JpaRepository<Metrics, Integer> {
 	@Query(value = "SELECT DISTINCT new gr.zisis.interestapi.controller.response.entity.AnalyzedCommits(m.sha, m.revisionCount) "
 			+ "FROM Metrics m "
 			+ "WHERE m.pid = (SELECT p.pid FROM Projects p WHERE p.url = ?1) ORDER BY m.revisionCount DESC")
-	Slice<AnalyzedCommits> findAnalyzedCommitIds(Pageable pageable, String url);
+	Slice<AnalyzedCommits> findAnalyzedCommits(Pageable pageable, String url);
 
 }

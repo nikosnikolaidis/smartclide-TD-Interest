@@ -75,11 +75,10 @@ public class InterestController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping(value = "/analyzedCommitIds")
+    @GetMapping(value = "/analyzedCommits")
     Collection<AnalyzedCommits> getAnalyzedCommitIds(@RequestParam(required = true) String url, @RequestParam(required = false) Integer limit) {
-        return Objects.isNull(limit) ? metricsService.findAnalyzedCommitIds(null, url).getContent() : metricsService.findAnalyzedCommitIds(PageRequest.of(0, limit), url).getContent();
+        return Objects.isNull(limit) ? metricsService.findAnalyzedCommits(null, url).getContent() : metricsService.findAnalyzedCommits(PageRequest.of(0, limit), url).getContent();
     }
-
 
     @CrossOrigin(origins = "*")
 	@PostMapping(path = "/startInterestAnalysis", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
