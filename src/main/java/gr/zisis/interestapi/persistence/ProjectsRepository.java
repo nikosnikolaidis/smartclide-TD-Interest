@@ -16,7 +16,7 @@ public interface ProjectsRepository extends JpaRepository<Projects, Integer> {
 
     @Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.Project(p.pid, p.url, p.owner, p.repo) "
             + "FROM Projects p "
-            + "WHERE p.url = ?1")
-    Project findProject(String url);
+            + "WHERE p.owner = ?1 AND p.repo = ?2")
+    Project findProject(String owner, String repo);
 
 }

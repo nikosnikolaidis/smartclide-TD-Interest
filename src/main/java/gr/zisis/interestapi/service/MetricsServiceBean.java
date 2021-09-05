@@ -22,52 +22,95 @@ public class MetricsServiceBean implements MetricsService {
 
 	@Override
 	public Collection<CumulativeInterest> findCumulativeInterestPerCommit(String url) {
-		return metricsRepository.findCumulativeInterestPerCommit(url);
+		String owner = getRepositoryOwner(url);
+		String repoName = getRepositoryName(url);
+		return metricsRepository.findCumulativeInterestPerCommit(owner, repoName);
 	}
 
 	@Override
 	public Collection<CumulativeInterest> findCumulativeInterestByCommit(String url, String sha) {
-		return metricsRepository.findCumulativeInterest(url, sha);
+		String owner = getRepositoryOwner(url);
+		String repoName = getRepositoryName(url);
+		return metricsRepository.findCumulativeInterest(owner, repoName, sha);
 	}
 
 	@Override
 	public Collection<InterestPerCommitFile> findInterestByCommitFile(String url, String sha, String filePath) {
-		return metricsRepository.findInterestPerCommitFile(url, sha, filePath);
+		String owner = getRepositoryOwner(url);
+		String repoName = getRepositoryName(url);
+		return metricsRepository.findInterestPerCommitFile(owner, repoName, sha, filePath);
 	}
 
 	@Override
 	public Collection<InterestChangePerCommit> findLastCommitInterestChange(String url, String sha) {
-		return metricsRepository.findInterestChangePerCommit(url, sha);
+		String owner = getRepositoryOwner(url);
+		String repoName = getRepositoryName(url);
+		return metricsRepository.findInterestChangePerCommit(owner, repoName, sha);
 	}
 
 	@Override
 	public Collection<NormalizedInterest> findNormalizedInterest(String url) {
-		return metricsRepository.findNormalizedInterest(url);
+		String owner = getRepositoryOwner(url);
+		String repoName = getRepositoryName(url);
+		return metricsRepository.findNormalizedInterest(owner, repoName);
 	}
 
 	@Override
 	public Collection<NormalizedInterest> findNormalizedInterestByCommit(String url, String sha) {
-		return metricsRepository.findNormalizedInterestPerCommit(url, sha);
+		String owner = getRepositoryOwner(url);
+		String repoName = getRepositoryName(url);
+		return metricsRepository.findNormalizedInterestPerCommit(owner, repoName, sha);
 	}
 
 	@Override
 	public Slice<HighInterestFile> findHighInterestFiles(Pageable pageable, String url, String sha) {
-		return metricsRepository.findHighInterestFiles(pageable, url, sha);
+		String owner = getRepositoryOwner(url);
+		String repoName = getRepositoryName(url);
+		return metricsRepository.findHighInterestFiles(pageable, owner, repoName, sha);
 	}
 
 	@Override
 	public Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha) {
-		return metricsRepository.findReusabilityMetrics(pageable, url, sha);
+		String owner = getRepositoryOwner(url);
+		String repoName = getRepositoryName(url);
+		return metricsRepository.findReusabilityMetrics(pageable, owner, repoName, sha);
 	}
 
 	@Override
 	public Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha, String filePath) {
-		return metricsRepository.findReusabilityMetrics(pageable, url, sha, filePath);
+		String owner = getRepositoryOwner(url);
+		String repoName = getRepositoryName(url);
+		return metricsRepository.findReusabilityMetrics(pageable, owner, repoName, sha, filePath);
 	}
 
 	@Override
 	public Slice<AnalyzedCommits> findAnalyzedCommits(Pageable pageable, String url) {
-		return metricsRepository.findAnalyzedCommits(pageable, url);
+		String owner = getRepositoryOwner(url);
+		String repoName = getRepositoryName(url);
+		return metricsRepository.findAnalyzedCommits(pageable, owner, repoName);
+	}
+
+	private String getRepositoryOwner(String url) {
+		String newURL = preprocessURL(url);
+		String[] urlSplit = newURL.split("/");
+		return urlSplit[urlSplit.length - 2].replaceAll(".*@.*:", "");
+	}
+
+	private String getRepositoryName(String url) {
+		String newURL = preprocessURL(url);
+		String[] urlSplit = newURL.split("/");
+		return urlSplit[urlSplit.length - 1];
+	}
+
+	private String preprocessURL(String url) {
+		String newURL = url;
+		if (newURL.endsWith(".git/"))
+			newURL = newURL.replace(".git/", "");
+		if (newURL.endsWith(".git"))
+			newURL = newURL.replace(".git", "");
+		if (newURL.endsWith("/"))
+			newURL = newURL.substring(0, newURL.length() - 1);
+		return newURL;
 	}
 
 }
