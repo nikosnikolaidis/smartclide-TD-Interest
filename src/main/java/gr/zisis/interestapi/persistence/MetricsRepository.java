@@ -16,7 +16,7 @@ import gr.zisis.interestapi.domain.Metrics;
  *
  */
 @Repository
-public interface MetricsRepository extends JpaRepository<Metrics, Integer> {
+public interface MetricsRepository extends JpaRepository<Metrics, Long> {
 
 	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.CumulativeInterest(m.sha, m.revisionCount, ROUND(SUM(m.interestEu), 2), ROUND(SUM(m.interestHours), 1)) "
 			+ "FROM Metrics m "
@@ -26,17 +26,17 @@ public interface MetricsRepository extends JpaRepository<Metrics, Integer> {
 	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.CumulativeInterest(m.sha, m.revisionCount, SUM(m.interestEu), SUM(m.interestHours)) "
 			+ "FROM Metrics m "
 			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) AND m.sha = ?3 GROUP BY m.sha, m.revisionCount")
-	Collection<CumulativeInterest> findCumulativeInterest(String owner, String repo, String sha);
+	Collection<CumulativeInterest> findCumulativeInterestByCommit(String owner, String repo, String sha);
 
 	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.InterestPerCommitFile(m.sha, f.filePath, m.revisionCount, m.interestEu, m.interestHours) "
 			+ "FROM Metrics m JOIN Files f ON m.fid = f.fid AND m.sha = f.sha "
 			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) AND m.sha = ?3 AND f.filePath = ?4 ORDER BY f.filePath")
 	Collection<InterestPerCommitFile> findInterestPerCommitFile(String owner, String repo, String sha, String filePath);
 
-	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.InterestChangePerCommit(m.sha, m.revisionCount, SUM(m.interestEu) - (SELECT SUM(m2.interestEu) FROM Metrics m2 WHERE m2.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) AND m2.revisionCount = m.revisionCount-1), SUM(m.interestHours) - (SELECT SUM(m2.interestHours) FROM Metrics m2 WHERE m2.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) AND m2.revisionCount = m.revisionCount-1), (SUM(m.interestEu) - (SELECT SUM(m2.interestEu) FROM Metrics m2 WHERE m2.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) AND m2.revisionCount = m.revisionCount-1))/SUM(m.interestEu))"
+	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.InterestChange(m.sha, m.revisionCount, SUM(m.interestEu) - (SELECT SUM(m2.interestEu) FROM Metrics m2 WHERE m2.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) AND m2.revisionCount = m.revisionCount-1), SUM(m.interestHours) - (SELECT SUM(m2.interestHours) FROM Metrics m2 WHERE m2.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) AND m2.revisionCount = m.revisionCount-1), (SUM(m.interestEu) - (SELECT SUM(m2.interestEu) FROM Metrics m2 WHERE m2.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) AND m2.revisionCount = m.revisionCount-1))/(SELECT SUM(m3.interestEu) FROM Metrics m3 WHERE m3.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) AND m3.revisionCount = m.revisionCount-1))"
 			+ "FROM Metrics m "
 			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) AND m.sha = ?3 GROUP BY m.sha, m.revisionCount")
-	Collection<InterestChangePerCommit> findInterestChangePerCommit(String owner, String repo, String sha);
+	Collection<InterestChange> findInterestChangeByCommit(String owner, String repo, String sha);
 
 	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.NormalizedInterest(m.sha, m.revisionCount, SUM(m.interestEu)/SUM(m.size1), SUM(m.interestHours)/SUM(m.size1)) "
 			+ "FROM Metrics m "
@@ -46,7 +46,7 @@ public interface MetricsRepository extends JpaRepository<Metrics, Integer> {
 	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.NormalizedInterest(m.sha, m.revisionCount, SUM(m.interestEu)/SUM(m.size1), SUM(m.interestHours)/SUM(m.size1)) "
 			+ "FROM Metrics m "
 			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) AND sha = ?3 GROUP BY m.sha, m.revisionCount HAVING SUM(m.size1) <> 0")
-	Collection<NormalizedInterest> findNormalizedInterestPerCommit(String owner, String repo, String sha);
+	Collection<NormalizedInterest> findNormalizedInterestByCommit(String owner, String repo, String sha);
 
 	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.HighInterestFile(m.sha, m.revisionCount, f.filePath, m.interestEu, m.interestHours, m.interestEu/(SELECT SUM(m2.interestEu) FROM Metrics m2 WHERE m2.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) AND m2.sha = ?3)) "
 			+ "FROM Metrics m JOIN Files f ON m.pid = f.pid AND m.fid = f.fid AND m.sha = f.sha "
@@ -55,7 +55,7 @@ public interface MetricsRepository extends JpaRepository<Metrics, Integer> {
 
 	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.ReusabilityMetrics(m.sha, m.revisionCount, f.filePath, m.cbo, m.dit, m.wmc, m.rfc, m.lcom, m.nocc) "
 			+ "FROM Metrics m JOIN Files f ON m.pid = f.pid AND m.fid = f.fid AND m.sha = f.sha "
-			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) ORDER BY f.filePath")
+			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) ORDER BY m.revisionCount")
 	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String owner, String repo);
 
 	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.ReusabilityMetrics(m.sha, m.revisionCount, f.filePath, m.cbo, m.dit, m.wmc, m.rfc, m.lcom, m.nocc) "
@@ -68,9 +68,9 @@ public interface MetricsRepository extends JpaRepository<Metrics, Integer> {
 			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) AND m.sha = ?3 AND f.filePath = ?4 ORDER BY f.filePath")
 	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String owner, String repo, String sha, String filePath);
 
-	@Query(value = "SELECT DISTINCT new gr.zisis.interestapi.controller.response.entity.AnalyzedCommits(m.sha, m.revisionCount) "
+	@Query(value = "SELECT DISTINCT new gr.zisis.interestapi.controller.response.entity.AnalyzedCommit(m.sha, m.revisionCount) "
 			+ "FROM Metrics m "
 			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) ORDER BY m.revisionCount DESC")
-	Slice<AnalyzedCommits> findAnalyzedCommits(Pageable pageable, String owner, String repo);
+	Slice<AnalyzedCommit> findAnalyzedCommits(Pageable pageable, String owner, String repo);
 
 }

@@ -18,7 +18,7 @@ public interface MetricsService {
 
 	Collection<InterestPerCommitFile> findInterestByCommitFile(String url, String sha, String filePath);
 
-	Collection<InterestChangePerCommit> findLastCommitInterestChange(String url, String sha);
+	Collection<InterestChange> findLastCommitInterestChange(String url, String sha);
 
 	Collection<NormalizedInterest> findNormalizedInterest(String url);
 
@@ -26,10 +26,12 @@ public interface MetricsService {
 
 	Slice<HighInterestFile> findHighInterestFiles(Pageable pageable, String url, String sha);
 
+	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url);
+
 	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha);
 
 	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha, String filePath);
 
-	Slice<AnalyzedCommits> findAnalyzedCommits(Pageable pageable, String url);
+	Slice<AnalyzedCommit> findAnalyzedCommits(Pageable pageable, String url);
 
 }

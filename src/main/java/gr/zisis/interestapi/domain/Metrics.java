@@ -87,6 +87,15 @@ public class Metrics implements Serializable {
         this.mid = mid;
     }
 
+    public Metrics(Long mid, Projects pid, Files fid, BigDecimal interestEu, String sha, Long revisionCount) {
+        this.mid = mid;
+        this.pid = pid;
+        this.fid = fid;
+        this.sha = sha;
+        this.interestEu = interestEu;
+        this.revisionCount = revisionCount;
+    }
+
     public Metrics(Long mid, BigDecimal interestEu, String sha, Long revisionCount) {
         this.mid = mid;
         this.interestEu = interestEu;

@@ -2,13 +2,13 @@ package gr.zisis.interestapi.controller.response.entity;
 
 import java.util.Objects;
 
-public class AnalyzedCommits implements Comparable<AnalyzedCommits> {
+public class AnalyzedCommit implements Comparable<AnalyzedCommit> {
     private String sha;
     private Long revisionCount;
 
-    public AnalyzedCommits() { }
+    public AnalyzedCommit() { }
 
-    public AnalyzedCommits(String sha, Long revisionCount) {
+    public AnalyzedCommit(String sha, Long revisionCount) {
         this.sha = sha;
         this.revisionCount = revisionCount;
     }
@@ -33,7 +33,7 @@ public class AnalyzedCommits implements Comparable<AnalyzedCommits> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AnalyzedCommits that = (AnalyzedCommits) o;
+        AnalyzedCommit that = (AnalyzedCommit) o;
         return Objects.equals(sha, that.sha) && Objects.equals(revisionCount, that.revisionCount);
     }
 
@@ -43,7 +43,7 @@ public class AnalyzedCommits implements Comparable<AnalyzedCommits> {
     }
 
     @Override
-    public int compareTo(AnalyzedCommits o) {
+    public int compareTo(AnalyzedCommit o) {
         if (this.revisionCount - o.revisionCount < 0)
             return -1;
         else if (this.revisionCount - o.revisionCount > 0)

@@ -24,6 +24,13 @@ public class CumulativeInterest {
 		this.interestHours = interestHours;
 	}
 
+	public CumulativeInterest(String sha, Long revisionCount, Double interestEu, Double interestHours) {
+		this.sha = sha;
+		this.revisionCount = revisionCount;
+		this.interestEu = new BigDecimal(interestEu);
+		this.interestHours = new BigDecimal(interestHours);
+	}
+
 	public String getSha() {
 		return sha;
 	}

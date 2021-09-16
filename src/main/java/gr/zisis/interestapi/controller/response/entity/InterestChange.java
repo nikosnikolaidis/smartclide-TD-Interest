@@ -4,16 +4,16 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
-public class InterestChangePerCommit {
+public class InterestChange {
     private String sha;
     private Long revisionCount;
     private BigDecimal changeEu;
     private BigDecimal changeHours;
     private BigDecimal changePercentage;
 
-    public InterestChangePerCommit() { }
+    public InterestChange() { }
 
-    public InterestChangePerCommit(String sha, Long revisionCount, BigDecimal changeEu, BigDecimal changeHours, BigDecimal changePercentage) {
+    public InterestChange(String sha, Long revisionCount, BigDecimal changeEu, BigDecimal changeHours, BigDecimal changePercentage) {
         this.sha = sha;
         this.revisionCount = revisionCount;
         this.changeEu = changeEu;
@@ -65,7 +65,7 @@ public class InterestChangePerCommit {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        InterestChangePerCommit that = (InterestChangePerCommit) o;
+        InterestChange that = (InterestChange) o;
         return Objects.equals(sha, that.sha) && Objects.equals(revisionCount, that.revisionCount) && Objects.equals(changeEu, that.changeEu) && Objects.equals(changeHours, that.changeHours) && Objects.equals(changePercentage, that.changePercentage);
     }
 

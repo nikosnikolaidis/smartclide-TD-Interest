@@ -3,8 +3,6 @@ package gr.zisis.interestapi.domain;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
@@ -25,11 +23,14 @@ public class Files implements Serializable {
     @Column(name = "sha")
     private String sha;
     @Basic(optional = false)
-    @Column(name = "class_names", columnDefinition="_text")
+    @Lob
+    @Column(name = "class_names")
     private Serializable classNames;
     @JoinColumn(name = "pid", referencedColumnName = "pid")
     @ManyToOne(optional = false)
     private Projects pid;
+
+    public Files() { }
 
     public Files(Long fid) {
         this.fid = fid;

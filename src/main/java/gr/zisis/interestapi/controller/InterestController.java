@@ -46,7 +46,7 @@ public class InterestController {
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/interestChange")
-    Collection<InterestChangePerCommit> getLastCommitInterestChange(@RequestParam(required = true) String url, @RequestParam(required = true) String sha) {
+    Collection<InterestChange> getLastCommitInterestChange(@RequestParam(required = true) String url, @RequestParam(required = true) String sha) {
         return metricsService.findLastCommitInterestChange(url, sha);
     }
 
@@ -63,20 +63,26 @@ public class InterestController {
     }
 
     @CrossOrigin(origins = "*")
+    @GetMapping(value = "/reusabilityMetrics")
+    Collection<ReusabilityMetrics> getReusabilityMetrics(@RequestParam(required = true) String url, @RequestParam(required = false) Integer limit) {
+        return Objects.isNull(limit) ? metricsService.findReusabilityMetrics(null, url).getContent() : metricsService.findReusabilityMetrics(PageRequest.of(0, limit), url).getContent();
+    }
+
+    @CrossOrigin(origins = "*")
     @GetMapping(value = "/reusabilityMetricsByCommit")
-    Collection<ReusabilityMetrics> getReusabilityMetrics(@RequestParam(required = true) String url, @RequestParam(required = true) String sha, @RequestParam(required = false) Integer limit) {
+    Collection<ReusabilityMetrics> getReusabilityMetricsByCommit(@RequestParam(required = true) String url, @RequestParam(required = true) String sha, @RequestParam(required = false) Integer limit) {
         return Objects.isNull(limit) ? metricsService.findReusabilityMetrics(null, url, sha).getContent() : metricsService.findReusabilityMetrics(PageRequest.of(0, limit), url, sha).getContent();
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/reusabilityMetricsByCommitAndFile")
-    Collection<ReusabilityMetrics> getReusabilityMetrics(@RequestParam(required = true) String url, @RequestParam(required = true) String sha, @RequestParam(required = true) String filePath, @RequestParam(required = false) Integer limit) {
+    Collection<ReusabilityMetrics> getReusabilityMetricsByCommitAndFile(@RequestParam(required = true) String url, @RequestParam(required = true) String sha, @RequestParam(required = true) String filePath, @RequestParam(required = false) Integer limit) {
         return Objects.isNull(limit) ? metricsService.findReusabilityMetrics(null, url, sha, filePath).getContent() : metricsService.findReusabilityMetrics(PageRequest.of(0, limit), url, sha, filePath).getContent();
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/analyzedCommits")
-    Collection<AnalyzedCommits> getAnalyzedCommitIds(@RequestParam(required = true) String url, @RequestParam(required = false) Integer limit) {
+    Collection<AnalyzedCommit> getAnalyzedCommitIds(@RequestParam(required = true) String url, @RequestParam(required = false) Integer limit) {
         return Objects.isNull(limit) ? metricsService.findAnalyzedCommits(null, url).getContent() : metricsService.findAnalyzedCommits(PageRequest.of(0, limit), url).getContent();
     }
 

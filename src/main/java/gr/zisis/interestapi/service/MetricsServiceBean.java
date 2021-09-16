@@ -31,7 +31,7 @@ public class MetricsServiceBean implements MetricsService {
 	public Collection<CumulativeInterest> findCumulativeInterestByCommit(String url, String sha) {
 		String owner = getRepositoryOwner(url);
 		String repoName = getRepositoryName(url);
-		return metricsRepository.findCumulativeInterest(owner, repoName, sha);
+		return metricsRepository.findCumulativeInterestByCommit(owner, repoName, sha);
 	}
 
 	@Override
@@ -42,10 +42,10 @@ public class MetricsServiceBean implements MetricsService {
 	}
 
 	@Override
-	public Collection<InterestChangePerCommit> findLastCommitInterestChange(String url, String sha) {
+	public Collection<InterestChange> findLastCommitInterestChange(String url, String sha) {
 		String owner = getRepositoryOwner(url);
 		String repoName = getRepositoryName(url);
-		return metricsRepository.findInterestChangePerCommit(owner, repoName, sha);
+		return metricsRepository.findInterestChangeByCommit(owner, repoName, sha);
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class MetricsServiceBean implements MetricsService {
 	public Collection<NormalizedInterest> findNormalizedInterestByCommit(String url, String sha) {
 		String owner = getRepositoryOwner(url);
 		String repoName = getRepositoryName(url);
-		return metricsRepository.findNormalizedInterestPerCommit(owner, repoName, sha);
+		return metricsRepository.findNormalizedInterestByCommit(owner, repoName, sha);
 	}
 
 	@Override
@@ -67,6 +67,13 @@ public class MetricsServiceBean implements MetricsService {
 		String owner = getRepositoryOwner(url);
 		String repoName = getRepositoryName(url);
 		return metricsRepository.findHighInterestFiles(pageable, owner, repoName, sha);
+	}
+
+	@Override
+	public Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url) {
+		String owner = getRepositoryOwner(url);
+		String repoName = getRepositoryName(url);
+		return metricsRepository.findReusabilityMetrics(pageable, owner, repoName);
 	}
 
 	@Override
@@ -84,7 +91,7 @@ public class MetricsServiceBean implements MetricsService {
 	}
 
 	@Override
-	public Slice<AnalyzedCommits> findAnalyzedCommits(Pageable pageable, String url) {
+	public Slice<AnalyzedCommit> findAnalyzedCommits(Pageable pageable, String url) {
 		String owner = getRepositoryOwner(url);
 		String repoName = getRepositoryName(url);
 		return metricsRepository.findAnalyzedCommits(pageable, owner, repoName);

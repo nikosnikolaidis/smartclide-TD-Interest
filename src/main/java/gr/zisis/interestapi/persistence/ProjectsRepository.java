@@ -12,7 +12,7 @@ import gr.zisis.interestapi.domain.Projects;
  *
  */
 @Repository
-public interface ProjectsRepository extends JpaRepository<Projects, Integer> {
+public interface ProjectsRepository extends JpaRepository<Projects, Long> {
 
     @Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.Project(p.pid, p.url, p.owner, p.repo) "
             + "FROM Projects p "

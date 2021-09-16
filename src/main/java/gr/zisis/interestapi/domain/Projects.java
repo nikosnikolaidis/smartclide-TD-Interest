@@ -46,8 +46,7 @@ public class Projects implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pid")
     private Collection<Files> filesCollection;
 
-    public Projects() {
-    }
+    public Projects() { }
 
     public Projects(Long pid) {
         this.pid = pid;
