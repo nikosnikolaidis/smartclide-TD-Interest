@@ -64,19 +64,19 @@ public class InterestController {
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/reusabilityMetrics")
-    Collection<ReusabilityMetrics> getReusabilityMetrics(@RequestParam(required = true) String url, @RequestParam(required = false) Integer limit) {
+    Collection<ProjectReusabilityMetrics> getReusabilityMetrics(@RequestParam(required = true) String url, @RequestParam(required = false) Integer limit) {
         return Objects.isNull(limit) ? metricsService.findReusabilityMetrics(null, url).getContent() : metricsService.findReusabilityMetrics(PageRequest.of(0, limit), url).getContent();
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/reusabilityMetricsByCommit")
-    Collection<ReusabilityMetrics> getReusabilityMetricsByCommit(@RequestParam(required = true) String url, @RequestParam(required = true) String sha, @RequestParam(required = false) Integer limit) {
+    Collection<FileReusabilityMetrics> getReusabilityMetricsByCommit(@RequestParam(required = true) String url, @RequestParam(required = true) String sha, @RequestParam(required = false) Integer limit) {
         return Objects.isNull(limit) ? metricsService.findReusabilityMetrics(null, url, sha).getContent() : metricsService.findReusabilityMetrics(PageRequest.of(0, limit), url, sha).getContent();
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/reusabilityMetricsByCommitAndFile")
-    Collection<ReusabilityMetrics> getReusabilityMetricsByCommitAndFile(@RequestParam(required = true) String url, @RequestParam(required = true) String sha, @RequestParam(required = true) String filePath, @RequestParam(required = false) Integer limit) {
+    Collection<FileReusabilityMetrics> getReusabilityMetricsByCommitAndFile(@RequestParam(required = true) String url, @RequestParam(required = true) String sha, @RequestParam(required = true) String filePath, @RequestParam(required = false) Integer limit) {
         return Objects.isNull(limit) ? metricsService.findReusabilityMetrics(null, url, sha, filePath).getContent() : metricsService.findReusabilityMetrics(PageRequest.of(0, limit), url, sha, filePath).getContent();
     }
 

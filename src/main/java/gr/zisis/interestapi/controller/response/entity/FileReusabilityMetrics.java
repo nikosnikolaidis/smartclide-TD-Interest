@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Objects;
 
-public class ReusabilityMetrics {
+public class FileReusabilityMetrics {
     private String sha;
     private Long revisionCount;
     private String filePath;
@@ -15,9 +15,9 @@ public class ReusabilityMetrics {
     private BigInteger lcom;
     private Integer nocc;
 
-    public ReusabilityMetrics() { }
+    public FileReusabilityMetrics() { }
 
-    public ReusabilityMetrics(String sha, Long revisionCount, String filePath, BigDecimal cbo, Integer dit, BigDecimal wmc, BigDecimal rfc, BigInteger lcom, Integer nocc) {
+    public FileReusabilityMetrics(String sha, Long revisionCount, String filePath, BigDecimal cbo, Integer dit, BigDecimal wmc, BigDecimal rfc, BigInteger lcom, Integer nocc) {
         this.sha = sha;
         this.revisionCount = revisionCount;
         this.filePath = filePath;
@@ -105,7 +105,7 @@ public class ReusabilityMetrics {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ReusabilityMetrics that = (ReusabilityMetrics) o;
+        FileReusabilityMetrics that = (FileReusabilityMetrics) o;
         return Objects.equals(sha, that.sha) && Objects.equals(revisionCount, that.revisionCount) && Objects.equals(filePath, that.filePath) && Objects.equals(cbo, that.cbo) && Objects.equals(dit, that.dit) && Objects.equals(wmc, that.wmc) && Objects.equals(rfc, that.rfc) && Objects.equals(lcom, that.lcom) && Objects.equals(nocc, that.nocc);
     }
 

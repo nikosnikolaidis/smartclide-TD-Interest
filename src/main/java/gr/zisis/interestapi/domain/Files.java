@@ -24,7 +24,7 @@ public class Files implements Serializable {
     private String sha;
     @Basic(optional = false)
     @Lob
-    @Column(name = "class_names")
+    @Column(name = "class_names", columnDefinition = "_text")
     private Serializable classNames;
     @JoinColumn(name = "pid", referencedColumnName = "pid")
     @ManyToOne(optional = false)

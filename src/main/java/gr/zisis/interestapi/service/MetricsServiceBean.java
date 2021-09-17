@@ -70,21 +70,21 @@ public class MetricsServiceBean implements MetricsService {
 	}
 
 	@Override
-	public Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url) {
+	public Slice<ProjectReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url) {
 		String owner = getRepositoryOwner(url);
 		String repoName = getRepositoryName(url);
 		return metricsRepository.findReusabilityMetrics(pageable, owner, repoName);
 	}
 
 	@Override
-	public Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha) {
+	public Slice<FileReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha) {
 		String owner = getRepositoryOwner(url);
 		String repoName = getRepositoryName(url);
 		return metricsRepository.findReusabilityMetrics(pageable, owner, repoName, sha);
 	}
 
 	@Override
-	public Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha, String filePath) {
+	public Slice<FileReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha, String filePath) {
 		String owner = getRepositoryOwner(url);
 		String repoName = getRepositoryName(url);
 		return metricsRepository.findReusabilityMetrics(pageable, owner, repoName, sha, filePath);

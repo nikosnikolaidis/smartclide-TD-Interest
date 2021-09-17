@@ -26,11 +26,11 @@ public interface MetricsService {
 
 	Slice<HighInterestFile> findHighInterestFiles(Pageable pageable, String url, String sha);
 
-	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url);
+	Slice<ProjectReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url);
 
-	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha);
+	Slice<FileReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha);
 
-	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha, String filePath);
+	Slice<FileReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String url, String sha, String filePath);
 
 	Slice<AnalyzedCommit> findAnalyzedCommits(Pageable pageable, String url);
 

@@ -53,20 +53,20 @@ public interface MetricsRepository extends JpaRepository<Metrics, Long> {
 			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) AND m.sha = ?3 GROUP BY m.sha, m.revisionCount, f.filePath, m.interestEu, m.interestHours ORDER BY m.interestEu DESC")
 	Slice<HighInterestFile> findHighInterestFiles(Pageable pageable, String owner, String repo, String sha);
 
-	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.ReusabilityMetrics(m.sha, m.revisionCount, f.filePath, m.cbo, m.dit, m.wmc, m.rfc, m.lcom, m.nocc) "
-			+ "FROM Metrics m JOIN Files f ON m.pid = f.pid AND m.fid = f.fid AND m.sha = f.sha "
-			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) ORDER BY m.revisionCount")
-	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String owner, String repo);
+	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.ProjectReusabilityMetrics(m.sha, m.revisionCount, AVG(m.cbo), AVG(m.dit), AVG(m.wmc), AVG(m.rfc), AVG(m.lcom), AVG(m.nocc)) "
+			+ "FROM Metrics m "
+			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) GROUP BY m.sha, m.revisionCount ORDER BY m.revisionCount")
+	Slice<ProjectReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String owner, String repo);
 
-	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.ReusabilityMetrics(m.sha, m.revisionCount, f.filePath, m.cbo, m.dit, m.wmc, m.rfc, m.lcom, m.nocc) "
+	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.FileReusabilityMetrics(m.sha, m.revisionCount, f.filePath, m.cbo, m.dit, m.wmc, m.rfc, m.lcom, m.nocc) "
 			+ "FROM Metrics m JOIN Files f ON m.pid = f.pid AND m.fid = f.fid AND m.sha = f.sha "
 			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) AND m.sha = ?3 ORDER BY f.filePath")
-	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String owner, String repo, String sha);
+	Slice<FileReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String owner, String repo, String sha);
 
-	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.ReusabilityMetrics(m.sha, m.revisionCount, f.filePath, m.cbo, m.dit, m.wmc, m.rfc, m.lcom, m.nocc) "
+	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.FileReusabilityMetrics(m.sha, m.revisionCount, f.filePath, m.cbo, m.dit, m.wmc, m.rfc, m.lcom, m.nocc) "
 			+ "FROM Metrics m JOIN Files f ON m.pid = f.pid AND m.fid = f.fid AND m.sha = f.sha "
 			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = ?1 AND repo = ?2) AND m.sha = ?3 AND f.filePath = ?4 ORDER BY f.filePath")
-	Slice<ReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String owner, String repo, String sha, String filePath);
+	Slice<FileReusabilityMetrics> findReusabilityMetrics(Pageable pageable, String owner, String repo, String sha, String filePath);
 
 	@Query(value = "SELECT DISTINCT new gr.zisis.interestapi.controller.response.entity.AnalyzedCommit(m.sha, m.revisionCount) "
 			+ "FROM Metrics m "
