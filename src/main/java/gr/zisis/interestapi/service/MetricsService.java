@@ -3,6 +3,9 @@ package gr.zisis.interestapi.service;
 import java.util.Collection;
 
 import gr.zisis.interestapi.controller.response.entity.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
@@ -18,7 +21,7 @@ public interface MetricsService {
 
 	Collection<InterestPerCommitFile> findInterestByCommitFile(String url, String sha, String filePath);
 
-	Collection<InterestChange> findLastCommitInterestChange(String url, String sha);
+	Collection<InterestChange> findInterestChangeByCommit(String url, String sha);
 
 	Collection<NormalizedInterest> findNormalizedInterest(String url);
 

@@ -2,11 +2,13 @@ package gr.zisis.interestapi.service;
 
 import gr.zisis.interestapi.controller.response.entity.Project;
 import gr.zisis.interestapi.persistence.ProjectsRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
+@AllArgsConstructor
 public class ProjectsServiceBean implements ProjectsService {
 
     @Autowired

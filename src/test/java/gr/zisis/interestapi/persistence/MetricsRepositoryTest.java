@@ -3,6 +3,7 @@ package gr.zisis.interestapi.persistence;
 import gr.zisis.interestapi.controller.response.entity.*;
 import gr.zisis.interestapi.domain.Files;
 import gr.zisis.interestapi.domain.Metrics;
+import gr.zisis.interestapi.domain.ProjectDomain;
 import gr.zisis.interestapi.domain.Projects;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +80,7 @@ class MetricsRepositoryTest {
                 = new ArrayList<>(Arrays.asList(new CumulativeInterest("testSha", 1L, new BigDecimal("517.0"),
                 new BigDecimal("0.0")),new CumulativeInterest("testSha2", 2L, new BigDecimal("10.0"), new BigDecimal("0.0"))));
 
-        Collection<CumulativeInterest> retrievedCollection = metricsRepositoryUnderTest.findCumulativeInterestPerCommit("testOwner", "testRepo");
+        Collection<CumulativeInterest> retrievedCollection = metricsRepositoryUnderTest.findCumulativeInterestPerCommit(new ProjectDomain("https://github.com/testOwner/testRepo"));
 
         assertThat(retrievedCollection).usingElementComparatorOnFields("sha", "interestEu").hasSameElementsAs(expectedCollection);
 
@@ -113,7 +114,7 @@ class MetricsRepositoryTest {
         Collection<CumulativeInterest> expectedCollection
                 = new ArrayList<>(Arrays.asList(new CumulativeInterest("testSha", 1L, new BigDecimal("517.0"), new BigDecimal("0.0"))));
 
-        Collection<CumulativeInterest> retrievedCollection = metricsRepositoryUnderTest.findCumulativeInterestByCommit("testOwner", "testRepo", "testSha");
+        Collection<CumulativeInterest> retrievedCollection = metricsRepositoryUnderTest.findCumulativeInterestByCommit(new ProjectDomain("https://github.com/testOwner/testRepo"), "testSha");
 
         assertThat(expectedCollection).usingElementComparatorOnFields("sha", "interestEu").hasSameElementsAs(retrievedCollection);
     }
@@ -136,7 +137,7 @@ class MetricsRepositoryTest {
         Collection<InterestPerCommitFile> expectedCollection
                 = new ArrayList<>(Arrays.asList(new InterestPerCommitFile("testSha", "testPath", 1L, new BigDecimal("5.00"), new BigDecimal("0.0"))));
 
-        Collection<InterestPerCommitFile> retrievedCollection = metricsRepositoryUnderTest.findInterestPerCommitFile("testOwner", "testRepo", "testSha", "testPath");
+        Collection<InterestPerCommitFile> retrievedCollection = metricsRepositoryUnderTest.findInterestPerCommitFile(new ProjectDomain("https://github.com/testOwner/testRepo"), "testSha", "testPath");
 
         assertThat(expectedCollection).usingElementComparatorOnFields("sha", "filePath", "interestEu").hasSameElementsAs(retrievedCollection);
     }
@@ -162,7 +163,7 @@ class MetricsRepositoryTest {
         Collection<InterestChange> expectedCollection
                 = new ArrayList<>(Arrays.asList(new InterestChange("testSha2", 2L, new BigDecimal("-3.0"), new BigDecimal("0.0"), new BigDecimal("-0.6"))));
 
-        Collection<InterestChange> retrievedCollection = metricsRepositoryUnderTest.findInterestChangeByCommit("testOwner", "testRepo", "testSha2");
+        Collection<InterestChange> retrievedCollection = metricsRepositoryUnderTest.findInterestChangeByCommit(new ProjectDomain("https://github.com/testOwner/testRepo"), "testSha2");
 
         assertThat(expectedCollection).usingElementComparatorOnFields("sha", "changeEu", "changePercentage").hasSameElementsAs(retrievedCollection);
 
@@ -196,7 +197,7 @@ class MetricsRepositoryTest {
         Collection<NormalizedInterest> expectedCollection
                 = new ArrayList<>(Arrays.asList(new NormalizedInterest("testSha", 1L, new BigDecimal("12.925"), new BigDecimal("0.0"))));
 
-        Collection<NormalizedInterest> retrievedCollection = metricsRepositoryUnderTest.findNormalizedInterestByCommit("testOwner", "testRepo", "testSha");
+        Collection<NormalizedInterest> retrievedCollection = metricsRepositoryUnderTest.findNormalizedInterestByCommit(new ProjectDomain("https://github.com/testOwner/testRepo"), "testSha");
 
         assertThat(expectedCollection).usingElementComparatorOnFields("sha", "normalizedInterestEu").hasSameElementsAs(retrievedCollection);
     }
@@ -229,7 +230,7 @@ class MetricsRepositoryTest {
         Collection<HighInterestFile> expectedCollection
                 = new ArrayList<>(Arrays.asList(new HighInterestFile("testSha", 1L, "testPath2", new BigDecimal("500.0"), new BigDecimal("0.0"), new BigDecimal("0.5"))));
 
-        Collection<HighInterestFile> retrievedCollection = metricsRepositoryUnderTest.findHighInterestFiles(PageRequest.of(0, 1),"testOwner", "testRepo", "testSha").getContent();
+        Collection<HighInterestFile> retrievedCollection = metricsRepositoryUnderTest.findHighInterestFiles(PageRequest.of(0, 1),new ProjectDomain("https://github.com/testOwner/testRepo"), "testSha").getContent();
 
         assertThat(expectedCollection).usingElementComparatorOnFields("sha", "interestEu", "interestPercentageOfProject").hasSameElementsAs(retrievedCollection);
     }
@@ -256,7 +257,7 @@ class MetricsRepositoryTest {
         Collection<AnalyzedCommit> expectedCollection
                 = new ArrayList<>(Arrays.asList(new AnalyzedCommit("testSha", 1L), new AnalyzedCommit("testSha2", 2L)));
 
-        Collection<AnalyzedCommit> retrievedCollection = metricsRepositoryUnderTest.findAnalyzedCommits(null, "testOwner", "testRepo").getContent();
+        Collection<AnalyzedCommit> retrievedCollection = metricsRepositoryUnderTest.findAnalyzedCommits(null, new ProjectDomain("https://github.com/testOwner/testRepo")).getContent();
 
         assertThat(expectedCollection).usingElementComparatorOnFields("sha", "revisionCount").hasSameElementsAs(retrievedCollection);
     }

@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 import gr.zisis.interestapi.controller.response.entity.*;
-import gr.zisis.interestapi.domain.ProjectDetails;
+import gr.zisis.interestapi.domain.ProjectDomain;
 import gr.zisis.interestapi.service.ProjectsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -47,7 +47,7 @@ public class InterestController {
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/interestChange")
     Collection<InterestChange> getLastCommitInterestChange(@RequestParam(required = true) String url, @RequestParam(required = true) String sha) {
-        return metricsService.findLastCommitInterestChange(url, sha);
+        return metricsService.findInterestChangeByCommit(url, sha);
     }
 
     @CrossOrigin(origins = "*")
@@ -88,9 +88,9 @@ public class InterestController {
 
     @CrossOrigin(origins = "*")
 	@PostMapping(path = "/startInterestAnalysis", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Project> startInterestAnalysis(@RequestBody(required = true) ProjectDetails projectDetails) throws IOException {
+    ResponseEntity<gr.zisis.interestapi.controller.response.entity.Project> startInterestAnalysis(@RequestBody(required = true) ProjectDomain project) throws IOException {
         try {
-            return new ResponseEntity<>(projectsService.save(projectDetails.getUrl()), HttpStatus.CREATED);
+            return new ResponseEntity<>(projectsService.save(project.getUrl()), HttpStatus.CREATED);
         } catch (IOException | InterruptedException e) {
             throw new ServerException("IOException");
         }
