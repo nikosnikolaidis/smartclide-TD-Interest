@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  publish_reusability_image:
+  publish_interest_image:
 
     runs-on: ubuntu-latest
 
