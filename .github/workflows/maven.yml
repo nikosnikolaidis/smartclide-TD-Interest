@@ -37,17 +37,7 @@ jobs:
         registry: ghcr.io
         username: ${GITHUB_ACTOR}
         password: ${{ secrets.GITHUB_TOKEN }}
-      
-    - name: Adding username
-      run: |
-          echo spring.datasource.username=${{secrets.DB_USER}} >> src/main/resources/application.properties
-      shell: bash
-      
-    - name: Adding password
-      run: |
-          echo spring.datasource.password=${{secrets.DB_PASS}} >> src/main/resources/application.properties
-      shell: bash
-        
+
     - name: Build with Maven
       run: mvn -B package --file pom.xml -DskipTests
         
