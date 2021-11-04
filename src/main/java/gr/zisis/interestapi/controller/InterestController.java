@@ -88,7 +88,7 @@ public class InterestController {
 
     @CrossOrigin(origins = "*")
 	@PostMapping(path = "/startInterestAnalysis", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<gr.zisis.interestapi.controller.response.entity.Project> startInterestAnalysis(@RequestBody(required = true) ProjectDomain project) throws IOException {
+    ResponseEntity<Project> startInterestAnalysis(@RequestBody(required = true) ProjectDomain project) throws IOException {
         try {
             return new ResponseEntity<>(projectsService.save(project.getUrl()), HttpStatus.CREATED);
         } catch (IOException | InterruptedException e) {

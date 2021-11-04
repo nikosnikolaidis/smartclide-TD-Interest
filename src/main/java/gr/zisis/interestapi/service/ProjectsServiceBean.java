@@ -4,19 +4,31 @@ import gr.zisis.interestapi.controller.response.entity.Project;
 import gr.zisis.interestapi.persistence.ProjectsRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-@AllArgsConstructor
 public class ProjectsServiceBean implements ProjectsService {
 
     @Autowired
     private ProjectsRepository projectsRepository;
 
+    @Value("${spring.datasource.driver-class-name}")
+    private String databaseDriver;
+
+    @Value("${spring.datasource.url}")
+    private String databaseUrl;
+
+    @Value("${spring.datasource.username}")
+    private String databaseUser;
+
+    @Value("${spring.datasource.password}")
+    private String databasePass;
+
     @Override
     public Project save(String url) throws IOException, InterruptedException {
-        ProcessBuilder pb = new ProcessBuilder("java", "-jar", "/interest.jar", url);
+        ProcessBuilder pb = new ProcessBuilder("java", "-jar", "/interest.jar", url, databaseDriver, databaseUrl, databaseUser, databasePass);
         Process process = pb.start();
         process.waitFor();
         String owner = getRepositoryOwner(url);

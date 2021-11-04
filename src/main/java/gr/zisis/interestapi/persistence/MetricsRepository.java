@@ -57,17 +57,17 @@ public interface MetricsRepository extends JpaRepository<Metrics, Long> {
 
 	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.ProjectReusabilityMetrics(m.sha, m.revisionCount, AVG(m.cbo), AVG(m.dit), AVG(m.wmc), AVG(m.rfc), AVG(m.lcom), AVG(m.nocc)) "
 			+ "FROM Metrics m "
-			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = :#{#project.owner} AND repo = :#{#project.repo}) GROUP BY m.sha, m.revisionCount ORDER BY m.revisionCount")
+			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = :#{#project.owner} AND repo = :#{#project.repo}) AND m.lcom >= 0 AND m.dit >= 0 GROUP BY m.sha, m.revisionCount ORDER BY m.revisionCount")
 	Slice<ProjectReusabilityMetrics> findReusabilityMetrics(Pageable pageable, ProjectDomain project);
 
 	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.FileReusabilityMetrics(m.sha, m.revisionCount, f.filePath, m.cbo, m.dit, m.wmc, m.rfc, m.lcom, m.nocc) "
 			+ "FROM Metrics m JOIN Files f ON m.pid = f.pid AND m.fid = f.fid AND m.sha = f.sha "
-			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = :#{#project.owner} AND repo = :#{#project.repo}) AND m.sha = :sha ORDER BY f.filePath")
+			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = :#{#project.owner} AND repo = :#{#project.repo}) AND m.sha = :sha AND m.lcom >= 0 AND m.dit >= 0 ORDER BY f.filePath")
 	Slice<FileReusabilityMetrics> findReusabilityMetrics(Pageable pageable, ProjectDomain project, @Param("sha") String sha);
 
 	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.FileReusabilityMetrics(m.sha, m.revisionCount, f.filePath, m.cbo, m.dit, m.wmc, m.rfc, m.lcom, m.nocc) "
 			+ "FROM Metrics m JOIN Files f ON m.pid = f.pid AND m.fid = f.fid AND m.sha = f.sha "
-			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = :#{#project.owner} AND repo = :#{#project.repo}) AND m.sha = :sha AND f.filePath = :filePath ORDER BY f.filePath")
+			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = :#{#project.owner} AND repo = :#{#project.repo}) AND m.sha = :sha AND f.filePath = :filePath AND m.lcom >= 0 AND m.dit >= 0 ORDER BY f.filePath")
 	Slice<FileReusabilityMetrics> findReusabilityMetrics(Pageable pageable, ProjectDomain project, @Param("sha") String sha, @Param("filePath") String filePath);
 
 	@Query(value = "SELECT DISTINCT new gr.zisis.interestapi.controller.response.entity.AnalyzedCommit(m.sha, m.revisionCount) "
