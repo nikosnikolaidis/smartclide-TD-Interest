@@ -42,7 +42,7 @@ class MetricsRepositoryTest extends AbstractBaseTest {
     private FilesRepository filesRepositoryUnderTest;
 
     @Test
-    @DirtiesContext
+//    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
     void itShouldFindCumulativeInterestPerCommit() {
 
         Projects projects = new Projects(PID.incrementAndGet(), "testOwner", "testRepo", "testURL");
@@ -98,7 +98,7 @@ class MetricsRepositoryTest extends AbstractBaseTest {
     }
 
     @Test
-    @DirtiesContext
+//    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
     void itShouldFindCumulativeInterestByCommit() {
         Projects projects = new Projects(PID.incrementAndGet(), "testOwner", "testRepo", "testURL");
         projectsRepositoryUnderTest.save(projects);
@@ -134,7 +134,7 @@ class MetricsRepositoryTest extends AbstractBaseTest {
     }
 
     @Test
-    @DirtiesContext
+//    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
     void itShouldFindInterestPerCommitFile() {
         Projects projects = new Projects(PID.incrementAndGet(), "testOwner", "testRepo", "testURL");
         projectsRepositoryUnderTest.save(projects);
@@ -160,7 +160,7 @@ class MetricsRepositoryTest extends AbstractBaseTest {
     }
 
     @Test
-    @DirtiesContext
+//    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
     void itShouldFindInterestChangePerCommit() {
         Projects projects = new Projects(PID.incrementAndGet(), "testOwner", "testRepo", "testURL");
         projectsRepositoryUnderTest.save(projects);
@@ -190,7 +190,7 @@ class MetricsRepositoryTest extends AbstractBaseTest {
     }
 
     @Test
-    @DirtiesContext
+//    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
     void itShouldFindNormalizedInterestByCommit() {
         Projects projects = new Projects(PID.incrementAndGet(), "testOwner", "testRepo", "testURL");
         projectsRepositoryUnderTest.save(projects);
@@ -226,7 +226,7 @@ class MetricsRepositoryTest extends AbstractBaseTest {
     }
 
     @Test
-    @DirtiesContext
+//    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
     void itShouldFindHighInterestFiles() {
         Projects projects = new Projects(PID.incrementAndGet(), "testOwner", "testRepo", "testURL");
         projectsRepositoryUnderTest.save(projects);
@@ -262,7 +262,7 @@ class MetricsRepositoryTest extends AbstractBaseTest {
     }
 
     @Test
-    @DirtiesContext
+//    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
     void itShouldFindAnalyzedCommits() {
 
         Projects projects = new Projects(PID.incrementAndGet(), "testOwner", "testRepo", "testURL");
