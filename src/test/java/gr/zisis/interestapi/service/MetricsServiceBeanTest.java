@@ -1,5 +1,6 @@
 package gr.zisis.interestapi.service;
 
+import gr.zisis.interestapi.AbstractBaseTest;
 import gr.zisis.interestapi.domain.ProjectDomain;
 import gr.zisis.interestapi.persistence.MetricsRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +17,7 @@ import static org.mockito.Mockito.verify;
  * @author Dimitrios Zisis <zisisndimitris@gmail.com>
  */
 @ExtendWith(MockitoExtension.class)
-class MetricsServiceBeanTest {
+class MetricsServiceBeanTest extends AbstractBaseTest {
 
     @Mock
     private MetricsRepository metricsRepository;

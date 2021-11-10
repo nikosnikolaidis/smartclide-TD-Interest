@@ -1,15 +1,13 @@
 package gr.zisis.interestapi;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ApplicationTests {
+class ApplicationTests extends AbstractBaseTest {
 
-	@Test
-	@Disabled
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }

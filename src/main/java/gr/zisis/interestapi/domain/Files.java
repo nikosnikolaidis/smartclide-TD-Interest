@@ -1,12 +1,32 @@
 package gr.zisis.interestapi.domain;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import com.vladmihalcea.hibernate.type.array.StringArrayType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+
 @Entity
 @Table(name = "files")
+@TypeDefs({
+        @TypeDef(
+                name = "string-array",
+                typeClass = StringArrayType.class
+        )
+})
 @XmlRootElement
 public class Files implements Serializable {
 
@@ -23,9 +43,9 @@ public class Files implements Serializable {
     @Column(name = "sha")
     private String sha;
     @Basic(optional = false)
-    @Lob
-    @Column(name = "class_names", columnDefinition = "_text")
-    private Serializable classNames;
+    @Type(type = "string-array")
+    @Column(name = "class_names", columnDefinition = "text[]")
+    private String[] classNames;
     @JoinColumn(name = "pid", referencedColumnName = "pid")
     @ManyToOne(optional = false)
     private Projects pid;
@@ -36,7 +56,7 @@ public class Files implements Serializable {
         this.fid = fid;
     }
 
-    public Files(Long fid, String filePath, Serializable classNames, Projects pid, String sha) {
+    public Files(Long fid, String filePath, String[] classNames, Projects pid, String sha) {
         this.fid = fid;
         this.filePath = filePath;
         this.classNames = classNames;
@@ -68,11 +88,11 @@ public class Files implements Serializable {
         this.filePath = filePath;
     }
 
-    public Serializable getClassNames() {
+    public String[] getClassNames() {
         return classNames;
     }
 
-    public void setClassNames(Serializable classNames) {
+    public void setClassNames(String[] classNames) {
         this.classNames = classNames;
     }
 
