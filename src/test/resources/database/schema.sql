@@ -1,5 +1,6 @@
 -- noinspection SqlNoDataSourceInspectionForFile
 
+-- CREATE DATABASE tdinterest WITH ENCODING = 'UTF8' LC_COLLATE = 'en_US.utf8' LC_CTYPE = 'en_US.utf8' TABLESPACE = pg_default CONNECTION LIMIT = - 1;
 CREATE TABLE public.projects
 (
     pid   bigint                            NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 99999999 CACHE 1 ),
