@@ -2,19 +2,11 @@ package gr.zisis.interestapi;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.jetbrains.annotations.NotNull;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.support.TestPropertySourceUtils;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-@ContextConfiguration(initializers = AbstractBaseTest.TestDataSourceInitializer.class)
-@Testcontainers
 public abstract class AbstractBaseTest {
 
     protected static final AtomicLong PID = new AtomicLong(0);
@@ -26,23 +18,24 @@ public abstract class AbstractBaseTest {
     private static final String TDINTEREST = "tdinterest";
     private static final String DATABASE_SCHEMA_SQL = "database/schema.sql";
 
-    @Container
-    private static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>(POSTGRES_IMAGE_NAME)
-            .withDatabaseName(TDINTEREST)
-            .withUsername(TDINTEREST)
-            .withPassword(TDINTEREST)
-            .withInitScript(DATABASE_SCHEMA_SQL);
+    private static PostgreSQLContainer<?> POSTGRES;
 
-    public static class TestDataSourceInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+    static {
+        POSTGRES = new PostgreSQLContainer<>(POSTGRES_IMAGE_NAME)
+                .withDatabaseName(TDINTEREST)
+                .withUsername(TDINTEREST)
+                .withPassword(TDINTEREST)
+                .withInitScript(DATABASE_SCHEMA_SQL)
+                .withReuse(true);
 
-        @Override
-        public void initialize(final @NotNull ConfigurableApplicationContext applicationContext) {
-            final String prefix = "spring.datasource.";
-            final String jdbcUrl = prefix + "url=" + POSTGRES.getJdbcUrl();
-            final String username = prefix + "username=" + POSTGRES.getUsername();
-            final String password = prefix + "password=" + POSTGRES.getPassword();
-
-            TestPropertySourceUtils.addInlinedPropertiesToEnvironment(applicationContext, jdbcUrl, username, password);
-        }
+        POSTGRES.start();
     }
+
+    @DynamicPropertySource
+    static void properties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", POSTGRES::getJdbcUrl);
+        registry.add("spring.datasource.password", POSTGRES::getPassword);
+        registry.add("spring.datasource.username", POSTGRES::getUsername);
+    }
+    
 }
