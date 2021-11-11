@@ -37,5 +37,5 @@ public abstract class AbstractBaseTest {
         registry.add("spring.datasource.password", POSTGRES::getPassword);
         registry.add("spring.datasource.username", POSTGRES::getUsername);
     }
-    
+
 }
