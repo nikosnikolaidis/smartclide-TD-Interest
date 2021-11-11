@@ -49,7 +49,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build with Maven
-      run: mvn -B deploy --file pom.xml -DskipTests
+      run: mvn -B clean package --file pom.xml -DskipTests
         
     - name: Build and push
       uses: docker/build-push-action@v2
