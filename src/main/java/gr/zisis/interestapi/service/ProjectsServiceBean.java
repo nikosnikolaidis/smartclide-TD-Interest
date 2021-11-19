@@ -5,7 +5,10 @@ import gr.zisis.interestapi.persistence.ProjectsRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.io.IOException;
 
 @Service
@@ -28,12 +31,23 @@ public class ProjectsServiceBean implements ProjectsService {
 
     @Override
     public Project save(String url) throws IOException, InterruptedException {
-        ProcessBuilder pb = new ProcessBuilder("java", "-jar", "/interest.jar", url, databaseDriver, databaseUrl, databaseUser, databasePass);
+        ProcessBuilder pb = new ProcessBuilder("java", "-jar", "jars/interest.jar", url, databaseDriver, databaseUrl, databaseUser, databasePass);
         Process process = pb.start();
         process.waitFor();
-        String owner = getRepositoryOwner(url);
-        String repoName = getRepositoryName(url);
-        return projectsRepository.findProject(owner, repoName);
+        if (process.exitValue() == 0) {
+            String owner = getRepositoryOwner(url);
+            String repoName = getRepositoryName(url);
+            return projectsRepository.findProject(owner, repoName);
+        } else if (process.exitValue() == -1) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Incorrect URL");
+        } else if (process.exitValue() == -2) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Mandatory arguments not provided");
+        } else {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Server error");
+        }
     }
 
     private String getRepositoryOwner(String url) {
