@@ -40,6 +40,11 @@ public interface MetricsRepository extends JpaRepository<Metrics, Long> {
 			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = :#{#project.owner} AND repo = :#{#project.repo}) AND m.sha = :sha GROUP BY m.sha, m.revisionCount")
 	Collection<InterestChange> findInterestChangeByCommit(ProjectDomain project, @Param("sha") String sha);
 
+	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.FileInterestChange(m.sha, m.revisionCount, f.filePath, m.interestEu - (SELECT m2.interestEu FROM Metrics m2 JOIN Files f2 ON m2.fid = f2.fid WHERE m2.pid = (SELECT pid FROM Projects WHERE owner = :#{#project.owner} AND repo = :#{#project.repo}) AND f.filePath = f2.filePath AND m2.revisionCount = m.revisionCount-1), m.interestHours - (SELECT m3.interestHours FROM Metrics m3 JOIN Files f3 ON m3.fid = f3.fid WHERE m3.pid = (SELECT pid FROM Projects WHERE owner = :#{#project.owner} AND f.filePath = f3.filePath AND repo = :#{#project.repo}) AND m3.revisionCount = m.revisionCount-1), (m.interestEu - (SELECT m4.interestEu FROM Metrics m4 JOIN Files f4 ON m4.fid = f4.fid WHERE m4.pid = (SELECT pid FROM Projects WHERE owner = :#{#project.owner} AND repo = :#{#project.repo}) AND f.filePath = f4.filePath AND m4.revisionCount = m.revisionCount-1))/(SELECT m5.interestEu FROM Metrics m5 JOIN Files f5 ON m5.fid = f5.fid WHERE m5.pid = (SELECT pid FROM Projects WHERE owner = :#{#project.owner} AND repo = :#{#project.repo}) AND f.filePath = f5.filePath AND m5.revisionCount = m.revisionCount-1))"
+			+ "FROM Metrics m JOIN Files f ON m.fid = f.fid AND m.sha = f.sha "
+			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = :#{#project.owner} AND repo = :#{#project.repo}) AND m.sha = :sha AND f.filePath = :filePath")
+	FileInterestChange findInterestChangeByCommitAndFile(ProjectDomain project, @Param("sha") String sha, @Param("filePath") String filePath);
+
 	@Query(value = "SELECT new gr.zisis.interestapi.controller.response.entity.NormalizedInterest(m.sha, m.revisionCount, SUM(m.interestEu)/SUM(m.size1), SUM(m.interestHours)/SUM(m.size1)) "
 			+ "FROM Metrics m "
 			+ "WHERE m.pid = (SELECT pid FROM Projects WHERE owner = :#{#project.owner} AND repo = :#{#project.repo}) GROUP BY m.sha, m.revisionCount HAVING SUM(m.size1) <> 0 ORDER BY m.revisionCount")

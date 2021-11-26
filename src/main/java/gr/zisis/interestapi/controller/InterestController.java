@@ -51,6 +51,12 @@ public class InterestController {
     }
 
     @CrossOrigin(origins = "*")
+    @GetMapping(value = "/fileInterestChange")
+    FileInterestChange getFileInterestChange(@RequestParam(required = true) String url, @RequestParam(required = true) String sha, @RequestParam(required = true) String filePath) {
+        return metricsService.findInterestChangeByCommitAndFile(url, sha, filePath);
+    }
+
+    @CrossOrigin(origins = "*")
     @GetMapping(value = "/normalizedInterest")
     Collection<NormalizedInterest> getNormalizedInterest(@RequestParam(required = true) String url, @RequestParam(required = false) String sha) {
         return (Objects.isNull(sha)) ? metricsService.findNormalizedInterest(url) : metricsService.findNormalizedInterestByCommit(url, sha);

@@ -23,6 +23,8 @@ public interface MetricsService {
 
 	Collection<InterestChange> findInterestChangeByCommit(String url, String sha);
 
+	FileInterestChange findInterestChangeByCommitAndFile(String url, String sha, String filePath);
+
 	Collection<NormalizedInterest> findNormalizedInterest(String url);
 
 	Collection<NormalizedInterest> findNormalizedInterestByCommit(String url, String sha);

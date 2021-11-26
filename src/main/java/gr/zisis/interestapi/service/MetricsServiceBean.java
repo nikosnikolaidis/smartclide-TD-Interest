@@ -44,6 +44,11 @@ public class MetricsServiceBean implements MetricsService {
 	}
 
 	@Override
+	public FileInterestChange findInterestChangeByCommitAndFile(String url, String sha, String filePath) {
+		return metricsRepository.findInterestChangeByCommitAndFile(new ProjectDomain(url), sha, filePath);
+	}
+
+	@Override
 	public Collection<NormalizedInterest> findNormalizedInterest(String url) {
 		return metricsRepository.findNormalizedInterest(new ProjectDomain(url));
 	}
