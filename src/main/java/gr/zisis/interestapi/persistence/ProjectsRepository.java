@@ -7,6 +7,18 @@ import org.springframework.stereotype.Repository;
 
 import gr.zisis.interestapi.domain.Projects;
 
+/*
+ *
+ *  * Copyright (C) 2021 UoM - University of Macedonia
+ *  *
+ *  * This program and the accompanying materials are made available under the
+ *  * terms of the Eclipse Public License 2.0 which is available at
+ *  * https://www.eclipse.org/legal/epl-2.0/
+ *  *
+ *  * SPDX-License-Identifier: EPL-2.0
+ *
+ */
+
 /**
  * @author George Digkas <digasgeo@gmail.com>
  *
