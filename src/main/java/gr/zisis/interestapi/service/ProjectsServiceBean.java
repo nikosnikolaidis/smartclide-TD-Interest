@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 /*
  *
@@ -42,13 +45,19 @@ public class ProjectsServiceBean implements ProjectsService {
     private String databasePass;
 
     @Override
-    public Project save(String url) throws IOException, InterruptedException {
-        ProcessBuilder pb = new ProcessBuilder("java", "-jar", "interest.jar", url, databaseDriver, databaseUrl, databaseUser, databasePass);
+    public Project save(String url, String VCSAccessToken) throws IOException, InterruptedException {
+        ProcessBuilder pb;
+        String owner = getRepositoryOwner(url);
+        String repoName = getRepositoryName(url);
+        String clonePath = "/tmp/"+ owner + "_" + repoName + "_" + System.currentTimeMillis() / 1000;
+        if (Objects.isNull(VCSAccessToken))
+            pb = new ProcessBuilder("java", "-jar", "interest.jar", url, clonePath, databaseDriver, databaseUrl, databaseUser, databasePass);
+        else
+            pb = new ProcessBuilder("java", "-jar", "interest.jar", url, clonePath, databaseDriver, databaseUrl, databaseUser, databasePass, VCSAccessToken);
         Process process = pb.start();
         process.waitFor();
+        FileSystemUtils.deleteRecursively(new File(clonePath));
         if (process.exitValue() == 0) {
-            String owner = getRepositoryOwner(url);
-            String repoName = getRepositoryName(url);
             return projectsRepository.findProject(owner, repoName);
         } else if (process.exitValue() == -1) {
             throw new ResponseStatusException(

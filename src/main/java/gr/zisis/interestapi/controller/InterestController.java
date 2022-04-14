@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 import gr.zisis.interestapi.controller.response.entity.*;
+import gr.zisis.interestapi.domain.AnalysisInfo;
 import gr.zisis.interestapi.domain.ProjectDomain;
 import gr.zisis.interestapi.service.ProjectsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,9 +104,9 @@ public class InterestController {
 
     @CrossOrigin(origins = "*")
 	@PostMapping(path = "/startInterestAnalysis", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Project> startInterestAnalysis(@RequestBody(required = true) ProjectDomain project) throws IOException {
+    ResponseEntity<Project> startInterestAnalysis(@RequestBody(required = true) AnalysisInfo info) throws IOException {
         try {
-            return new ResponseEntity<>(projectsService.save(project.getUrl()), HttpStatus.CREATED);
+            return new ResponseEntity<>(projectsService.save(info.getUrl(), info.getToken()), HttpStatus.CREATED);
         } catch (IOException | InterruptedException e) {
             throw new ServerException("IOException");
         }

@@ -19,5 +19,5 @@ import java.io.IOException;
  */
 
 public interface ProjectsService {
-    Project save(String url) throws IOException, InterruptedException;
+    Project save(String url, String VCSAccessToken) throws IOException, InterruptedException;
 }
