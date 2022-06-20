@@ -49,7 +49,7 @@ public class ProjectsServiceBean implements ProjectsService {
         ProcessBuilder pb;
         String owner = getRepositoryOwner(url);
         String repoName = getRepositoryName(url);
-        String clonePath = "/tmp/"+ owner + "_" + repoName + "_" + System.currentTimeMillis() / 1000;
+        String clonePath = "/tmp/"+ owner + "_" + repoName + "_" + System.currentTimeMillis();
         if (Objects.isNull(VCSAccessToken))
             pb = new ProcessBuilder("java", "-jar", "interest.jar", url, clonePath, databaseDriver, databaseUrl, databaseUser, databasePass);
         else
