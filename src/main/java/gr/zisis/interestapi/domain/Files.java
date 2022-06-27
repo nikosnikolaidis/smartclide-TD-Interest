@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (C) 2021-2022 University of Macedonia
+ * 
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ ******************************************************************************/
 package gr.zisis.interestapi.domain;
 
 import java.io.Serializable;
@@ -18,18 +27,6 @@ import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
-
-/*
- *
- *  * Copyright (C) 2021 UoM - University of Macedonia
- *  *
- *  * This program and the accompanying materials are made available under the
- *  * terms of the Eclipse Public License 2.0 which is available at
- *  * https://www.eclipse.org/legal/epl-2.0/
- *  *
- *  * SPDX-License-Identifier: EPL-2.0
- *
- */
 
 @Entity
 @Table(name = "files")
