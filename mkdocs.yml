@@ -1,5 +1,5 @@
 site_name: SmartCLIDE TD Interest Backend Component
-repo_url: https://github.com/eclipse-researchlabs/smartclide-TD-Interest
+repo_url: https://github.com/eclipse-opensmartclide/smartclide-TD-Interest
 
 nav:
   - TD Interest Backend: 'index.md'
